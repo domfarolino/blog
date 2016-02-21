@@ -21,11 +21,11 @@ $ npm install && npm start
 #include <sstream>
 
 int main() {
-  std::cout << "Testing..." << std::endl;
+  std::cout << "Cool C++ code here..." << std::endl;
   return 0;
 }
 ```
     
 
 Pictures are cool too:
-![_config.yml]({{ site.baseurl }}/images/config.png)
+![containsDuplicates]({{ site.baseurl }}/images/containsDuplicates.png)
