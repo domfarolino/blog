@@ -15,14 +15,16 @@ $ cd every-repository
 $ npm install && npm start
 ```
 
-    #include <iostream> // pretty much first LOC I write for every algorithm
-    #include <vector>
-    #include <sstream>
-    
-    int main() {
-      std::cout << "Testing..." << std::endl;
-      return 0;
-    }
+```
+#include <iostream> // pretty much first LOC I write for every algorithm
+#include <vector>
+#include <sstream>
+
+int main() {
+  std::cout << "Testing..." << std::endl;
+  return 0;
+}
+```
     
 
 Pictures are cool too:
