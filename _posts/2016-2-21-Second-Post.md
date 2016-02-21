@@ -15,7 +15,7 @@ $ cd every-repository
 $ npm install && npm start
 ```
 
-```
+```c++
 #include <iostream> // pretty much first LOC I write for every algorithm
 #include <vector>
 #include <sstream>
