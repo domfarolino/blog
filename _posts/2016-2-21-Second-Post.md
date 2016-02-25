@@ -5,7 +5,7 @@ title: Second Test Blog Post
 
 Testing to see how the site looks with multiple posts up.
 
-This is `pretty` cool. Testing some `code` tags.
+This is `pretty` cool. Testing some code tags.
 
 Some shell scripts:
 
