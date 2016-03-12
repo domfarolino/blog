@@ -106,6 +106,11 @@ Once your application is created you can roam through the setings and permission
 
 ![twitterpermissions]({{ site.baseurl }}/images/2016-3-12-Registering-An-OAuth-App/permissions.png)
 
+Your consumer key and consumer secret can be found under the "Keys and Access Tokens" tab. These values are what your app will use to identify itself with Twitter on
+API requests. As with the credentials we got from Google upon app registration, make sure these are kept secret and never committed to any public repository.
+
+![twittertokens]({{ site.baseurl }}/images/2016-3-12-Registering-An-OAuth-App/twittertokens.png)
+
 Note that in a production application it is wise to enable callback locking. This makes it impossible for a request to be tampered with in such a way that will allow
 Twitter to redirect to URL other than the one specified in the application settings. The callback locking feature can be found under the settings tab.
 
