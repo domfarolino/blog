@@ -76,3 +76,5 @@ exclude:
     - LICENSE
     - README.md
     - CNAME
+
+encoding: utf-8
