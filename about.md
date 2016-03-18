@@ -11,5 +11,5 @@ Some information about you!
 A place to include any other types of information that you'd like to include about yourself.
 
 ### Contact me
-
-[email@domain.com](mailto:email@domain.com)
+[Personal Site](http://domfarolino.com)
+[email@domain.com](mailto:domfarolino@gmail.com)
