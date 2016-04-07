@@ -12,10 +12,10 @@ The problem statment is as follows:
 > Given the following binary tree,
 
 >         1            <---
->       /   \
->      2     3         <---
->       \     \
->        5     4       <---
+>        / \
+>       2   3         <---
+>        \   \
+>         5   4       <---
 >
 > You should return [1, 3, 4].
 
@@ -56,3 +56,29 @@ vector<int> breadthFirstSearch(TreeNode* root) {
 }
 
 ```
+
+If you haven't seen this before here's a quick and dirty explanation of
+the code. The idea is to enqueue the first node (root of the tree), and while the
+queue's size is > 0, enqueue any of the node's children and and remove the current node
+from the queue.
+
+Given the following tree structure:
+
+```
+      1
+     / \
+    2   3
+   /   / \
+  4   5   6
+```
+
+A visual of the queue would look like this:
+
+```
+___       _______       _____       _______       _____       ________
+ 1    =>   1 2 3    =>   2 3    =>   2 3 4    =>   3 4    =>   3 4 5 6  ...
+---       -------       -----       -------       -----       --------
+```
+
+We know every node in the queue succeeding the front-most node will be at a level equivalent to
+or deeper than that of the front-most node. 
