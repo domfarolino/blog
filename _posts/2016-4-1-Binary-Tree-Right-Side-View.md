@@ -85,11 +85,11 @@ ___       _______       _____       _______       _____       ________
 From this we can see at any given moment every node in the queue will be at a level equivalent to or deeper than that
 of the front-most. This is important because our modifications must let us store the largest node in a single level into our
 `returnVector` before we move onto the first node of the next level. This means we'll need to know exactly how many nodes are
-at each level so we can break appropriately before filling up the queue with nodes from another level. We can maintain a variable
-`count` to hold the number of nodes in the current level. Since we'll be starting at the root of the tree, our `count` will be equal
-to `queue.size()` when we enter the while loop for the first time.
+at each level so we can break appropriately before filling up the queue with nodes from another level. In order to do this, we can
+maintain a variable `count` to hold the number of nodes in the current level. Since we'll be starting at the root of the tree, our
+`count` will be equal to `queue.size()` when we enter the while loop for the first time.
 
-We now know how many nodes our in the current level (`1`). We need to grab the largest node in this level.
+We now know how many nodes are in the current level (`1`). We need to grab the largest node in this level.
 This will always be at `q.back()` because we are always pushing the smaller of the children to the queue first (see visual above).
 Now we just need to loop through all of the nodes in the queue (there are `count` of them), and for each one push its children to
 the queue and pop the current node. We must also decrement our `count` to correctly maintain the number of nodes at each level. Notice
