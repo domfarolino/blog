@@ -90,7 +90,7 @@ of the front-most. This is important because our modifications must let us store
 `returnVector` before moving onto the first node of the next level. This means we'll need to know exactly how many nodes are
 at each level so we can break appropriately before pushing nodes from another level to the queue. We can do this by
 maintaining a variable `count` to hold the number of nodes in the current level. Using `q.size()` is not a good idea is because
-it will wax and wane as we traverse through even a single level, pushing children and popping the current node, whereas we can
+it will wax and wane as we traverse through even a single level filling the queue with nodes from the next level. We can
 set `count` as a static value before doing any of this. The key is getting `count` correct from the beginning.
 This will act as our base case, and observation will reveal that `count` is equal to the number of nodes in the
 queue (namely `queue.size()`) when we enter the while loop for the first time.
