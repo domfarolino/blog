@@ -89,10 +89,10 @@ From this we can see at any given moment every node in the queue will be at a le
 of the front-most. This is important because our modifications must let us store the largest node of a single level into our
 `returnVector` before moving onto the first node of the next level. This means we'll need to know exactly how many nodes are
 at each level so we can break appropriately before pushing nodes from another level to the queue. We can do this by
-maintaining a variable `count` to hold the number of nodes in the current level. The key is going to be getting `count`
-correct from the beginning. This will act as the 'base case' all of the others level counts will be based off of. Observation
+maintaining a variable `count` to hold the number of nodes in the current level. The key is getting `count`
+correct from the beginning. This will act as the 'base case' all of the others level counts will be built off of. Observation
 will reveal that `count` is equal to the number of nodes in the queue (namely `queue.size()`) when we enter the while loop for the first time.
-Note how `q.size()` will wax and wane as we traverse through a single level filling the queue with nodes from the next level. This is why
+Note how `q.size()` will wax and wane as we traverse through a single level filling the queue with nodes of the next level. This is why
 we'll need to set `count = q.size()` before we iterate throug the queue and do anything.
 
 We know how many nodes are in the current level (`1`). Next we now need to grab the largest node at this level. At this point this is the
