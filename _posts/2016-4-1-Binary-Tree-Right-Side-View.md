@@ -3,6 +3,8 @@ layout: post
 title: Binary Tree - Right Side View Algorithm
 ---
 
+$$\sum_{n=1}^\infty 1/n^2 = \frac{\pi^2}{6}$$
+
 I came across a cool algorithm on [leetcode](https://leetcode.com/problems/binary-tree-right-side-view/) not too long ago and to practice my
 writing, I figured I'd try to explain my thought process behind it.
 
@@ -90,17 +92,18 @@ of the front-most. This is important because our modifications must let us store
 `returnVector` before moving onto the first node of the next level. This means we'll need to know exactly how many nodes are
 at each level so we can break appropriately before pushing nodes from another level to the queue. We can do this by
 maintaining a variable `count` to hold the number of nodes in the current level. The key is getting `count`
-correct from the beginning. This will act as the 'base case' all of the others level counts will be built off of. Observation
-will reveal that `count` is equal to the number of nodes in the queue (namely `queue.size()`) when we enter the while loop for the first time.
-Note how `q.size()` will wax and wane as we traverse through a single level filling the queue with nodes of the next level. This is why
-we'll need to set `count = q.size()` before we iterate throug the queue and do anything.
+correct from the beginning. This will act as a base all of the other level counts will be built off of. Observation
+will reveal that `count` is equal to the number of nodes in the queue (namely `queue.size()`) when we enter the while loop
+for the first time. Note how `q.size()` will wax and wane as we traverse through a single level filling the queue with nodes
+of the next level. This is why we'll need to set `count = q.size()` before we iterate throug the queue and do anything.
 
-We know how many nodes are in the current level (`1`). Next we now need to grab the largest node at this level. At this point this is the
-only node in the queue, but looking at how we push nodes into the queue (`parent->leftChild` before `parent->rightChild`) we can see
-that the largest node will always exist at `q.back()` (also `q.at(count-1)`). Now that we have the largest node at the current level stored,
-we just need to loop through all of the `count` nodes in the queue and for each one push its children to the queue and pop the current
-node (standard procedure). This will fill the queue will all of the nodes at the next level and purge the queue of nodes from the current.
-Notice during this operation `q.size()` will most likely change, which is why we set `count = q.size()` before doing any of this, to allow
-us to keep an accurate number of nodes at our current level. We must also remember to decrement `count` every time we pop from the queue.
-After this operation the queue will ONLY contain nodes from the new leve. This means `q.size()` will always be equal to the level
-count, meaning `count` will always correctly be set to the number of nodes at the current level.
+Our next step is to perform a number of steps that when finished, the queue only contains nodes of the next level so `count` will always
+have the correct level count. We know how many nodes are in the current level (`1`). We now need to grab the largest node at this level.
+At this point this is the only node in the queue, but looking at how we push nodes into the queue (`parent->leftChild` before `parent->rightChild`)
+we can see that the largest node will always exist at `q.back()` (also `q.at(count-1)`). Now that we have the largest node at the
+current level stored, we just need to loop through all of the `count` nodes in the queue and for each one push its children to the
+queue and pop the current node (standard procedure). This will fill the queue will all of the nodes at the next level and purge the
+queue of nodes from the current. Notice during this operation `q.size()` will most likely change, which is why we set `count = q.size()`
+before doing any of this, to allow us to keep an accurate number of nodes at our current level. We must also remember to decrement
+`count` every time we pop from the queue. After this operation the queue will ONLY contain nodes from the new leve. This means
+`q.size()` will always be equal to the level count, meaning `count` will always correctly be set to the number of nodes at the current level.
