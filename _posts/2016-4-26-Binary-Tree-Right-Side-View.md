@@ -107,3 +107,38 @@ perform a number of steps that when finished, leave the queue filled only with n
 `count` nodes in the queue and for each one push its children and pop the current node (standard BFS procedure). Remember to decrement
 `count` every time we pop from the queue to maintain an accurate count of nodes we need to process. Once this is completed the queue will ONLY
 contain nodes from the new level which gives us a great place to rinse and repeat.
+
+After all is said and done you might end up with something like the following:
+
+```cpp
+
+vector<int> rightSideView(TreeNode *root) {
+    vector<int> ret;
+    queue<TreeNode*> q;
+
+    if(!root) return ret;
+    q.push(root);
+    
+    int count = q.size();
+    while(q.size()) {
+
+        ret.push_back(q.back()->val);
+        count = q.size();
+
+        while(count) {
+            if(q.front()->left)
+                q.push(q.front()->left);
+            if(q.front()->right)
+                q.push(q.front()->right);
+            q.pop();
+            count--;
+        }
+
+    }
+    return ret;
+}
+
+```
+
+Of course this is not the only way to do it, and if you have any improvements to this method
+or other ideas you'd like to submit please leave a comment below.
