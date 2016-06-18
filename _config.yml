@@ -2,6 +2,9 @@
 # This file contains configuration flags to customize your site
 #
 
+url: https://chinocode.com   # with the https protocol
+enforce_ssl: www.chinocode.com   # without any protoc
+
 # Name of your site (displayed in the header)
 name: Dom Farolino
 
