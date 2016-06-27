@@ -23,13 +23,6 @@ $$(k^2)(\frac{n}{k}) = (nk) = O(nk)$$
 There are many ways look at this problem. I'll start with a few ways I found to logically
 come about the answer and then follow up with a formal proof.
 
-First we need to realize the goal is not to go through all $log(n)$ levels of recursion. Instead
-we want to [stop short](https://www.youtube.com/watch?v=IzkEFWrMVys) when the length of an input array
-reaches some size $k$.
-
-At some point we'll get $\frac{n}{k}$ subarrays of length $k$. These subarrays will be the leaves of the
-recursion tree. We need to figure out how many levels
-
 Let's briefly go over why merge sort takes $O(nlog(n))$ time. Here's a quick table outlining the recursion
 tree produced by mergesort.
 
@@ -43,18 +36,23 @@ n & 1 \\\
 \hline
 \frac{n}{4} & 4 \\\
 \hline
-\frac{n}{8} & 8 \\\
-\hline
 \dotsb & \dotsb \\\
 \hline
 1 & n \\\
 \end{array}
 $$
 
-We can see that there are always $n$ elements at play, we just have to merge them $log(n)$ times starting at the deepest level
+Note there are always $n$ elements at play, we just have to merge them $log(n)$ times starting at the deepest level
 of the tree until we get one unified array. The point of the improved merge sort is to stop us from going all the way to the bottom of
 the recursion tree where we have to merge $n$, $1$ element arrays. Instead we want to stop when the input array gets some size $k$, and
 merge the $\frac{n}{k}$ arrays after we run insertion sort on them.
+
+The goal is not to go through all $log(n)$ levels of recursion. Instead
+we want to [stop short](https://www.youtube.com/watch?v=IzkEFWrMVys) when the length of an input array
+reaches some size $k$.
+
+At some point we'll get $\frac{n}{k}$ subarrays of length $k$. These subarrays will be the leaves of the
+recursion tree. We need to figure out how many levels
 
 This means all of the levels of recursion in our table that appear under our stopping level will not be necessary. The total number of levels
 is $log(n)$ and the total number of levels under *and including* the level we wish to stop at is $log(k)$. This means the number of levels we
