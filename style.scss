@@ -25,6 +25,18 @@ html {
     color: #6a9fb5;
 }
 
+.codinfox-category-list li small {
+    font-size: 75%;
+    color: #999;
+}
+.codinfox-category-list li a:hover {
+    color: #6a9fb5;
+    text-decoration: none;
+}
+.codinfox-category-list li a:hover small {
+    color: inherit;
+}
+
 body {
 	background: $white;
   font: 18px/1.4 $helvetica;
@@ -295,3 +307,4 @@ footer {
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
+@import "tag";

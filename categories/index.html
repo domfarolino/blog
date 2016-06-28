@@ -33,36 +33,30 @@ title:    Categories
 <h1 class="page-title">
   <a href="/">Chronological</a> | <a href="/">{{ page.title }}</a> | <a href="/tags">Tags</a>
 </h1>
-<br/>
 
 <div class="posts">
-<p>
-{% for ct in cats %}
-<a href="#{{ ct | slugify }}" class="codinfox-category-mark" style="color:#999;text-decoration: none;"> {{ ct }} </a> &nbsp;&nbsp;
-{% endfor %}
-<a href="#no-category" class="codinfox-category-mark" style="color:#999;text-decoration: none;"> No Category </a> &nbsp;&nbsp;
-</p>
+  <div class="tags-expo-list">
+    {% for tag in site.categories %}
+    <a href="#{{ tag[0] | slugify }}" class="post-tag">{{ tag[0] }}</a>
+    {% endfor %}
+  </div>
+  <hr/>
 
-{% for ct in cats %}
-<h2 id="{{ ct | slugify }}">{{ ct }}</h2>
-<ul class="codinfox-category-list">
-  {% for post in site.posts %}
-  {% if post.category contains ct %}
-  <li>
-    <h3>
-      <a href="{{ post.url }}">
+<div class="tags-expo-section">
+    {% for tag in site.categories %}
+    <h2 id="{{ tag[0] | slugify }}">{{ tag[0] }}</h2>
+    <ul class="tags-expo-posts">
+      {% for post in tag[1] %}
+        <a class="post-title" href="{{ site.baseurl }}{{ post.url }}">
+      <li>
         {{ post.title }}
-        <small>{{ post.date | date_to_string }}</small>
+      <small class="post-date">{{ post.date | date_to_string }}</small>
+      </li>
       </a>
-      {% for tag in post.tags %}
-      <a class="codinfox-tag-mark" href="/blog/tag/#{{ tag | slugify }}">{{ tag }}</a>
       {% endfor %}
-    </h3>
-  </li>
-  {% endif %}
-  {% endfor %}
-</ul>
-{% endfor %}
+    </ul>
+    {% endfor %}
+  </div>
 
 <h2 id="no-category">No Category</h2>
 <ul class="codinfox-category-list">
@@ -75,6 +69,7 @@ title:    Categories
         <small>{{ post.date | date_to_string }}</small>
       </a>
       {% for tag in post.tags %}
+      <br>
       <a class="codinfox-tag-mark" href="/blog/tag/#{{ tag | slugify }}">{{ tag }}</a>
       {% endfor %}
     </h3>
