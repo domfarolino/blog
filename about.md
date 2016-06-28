@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I'm currently a sophomore at the University of Cincinnati studying computer science. Most of my programming experience comes from outside school. I'm very
+I'm currently a 3rd year computer science major at the University of Cincinnati. Most of my programming experience comes from outside school. I'm very
 passionate about the web and its impact on our future. I love to build things, study math and algorithms, and write web applications.
 
 ### More Information
