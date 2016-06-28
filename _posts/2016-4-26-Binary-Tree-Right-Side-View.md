@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Binary Tree - Right Side View Algorithm
+category: Algorithms and Data Structures
+tags: [binary trees, recursion]
 ---
 
 I came across a simple but cool algorithm on [leetcode](https://leetcode.com/problems/binary-tree-right-side-view/) not too

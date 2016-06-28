@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Registering an OAuth App with Google and Twitter
+category: Web
+tags: [OAuth]
 ---
 
 Giving your users the ability to login on a website via a trusted OAuth provider is a huge benefit.

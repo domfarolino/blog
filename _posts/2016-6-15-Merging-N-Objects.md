@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Combinatorics - Merging N Objects
+category: Algorithms and Data Structures
+tags: [combinatorics, induction, proofs]
 ---
 
 I got this problem from [The Algorithm Design Manual](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.471.4772&rep=rep1&type=pdf) by Steven Skiena.
