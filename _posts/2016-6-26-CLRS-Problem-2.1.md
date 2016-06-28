@@ -1,6 +1,8 @@
 ---
 layout: post
 title: CLRS - Problem 2.1 Modified Merge Sort
+category: Algorithms and Data Structures
+tags: [combinatorics, induction, proofs]
 ---
 
 2-1 Insertion sort on small arrays in merge sort
