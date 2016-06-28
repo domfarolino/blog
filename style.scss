@@ -17,26 +17,6 @@ html {
   font-size: 100%;
 }
 
-.codinfox-tag-mark{
-    font-size: 75%;
-    padding: 0 .5rem 0 .5rem;
-    border-radius: 5px;
-    background: #e7f2f7;
-    color: #6a9fb5;
-}
-
-.codinfox-category-list li small {
-    font-size: 75%;
-    color: #999;
-}
-.codinfox-category-list li a:hover {
-    color: #6a9fb5;
-    text-decoration: none;
-}
-.codinfox-category-list li a:hover small {
-    color: inherit;
-}
-
 body {
 	background: $white;
   font: 18px/1.4 $helvetica;
@@ -301,6 +281,40 @@ nav {
 footer {
   padding: 20px 0;
   text-align: center;
+}
+
+/**
+ * Misc
+ */
+
+hr { // from poole
+  position: relative;
+  margin: 1.5rem 0;
+  border: 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #fff;
+}
+
+small { // from _masthead.scss
+  font-size: 75%;
+  font-weight: 400;
+  color: $masthead-title-small-color;
+  letter-spacing: 0;
+}
+
+.post-more { // _post.scss
+  margin-top: .5em;
+  text-align: right;
+  .fa{
+    margin-right: .2em;
+  }
+}
+
+/* Meta data line below post title */
+.post-date { // from poole redundant style for post date text rendering on home page
+  margin-top: -.5rem;
+  margin-bottom: 1rem;
+  color: #9a9a9a;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS

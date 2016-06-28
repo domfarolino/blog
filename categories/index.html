@@ -31,13 +31,13 @@ title:    Categories
 {% endfor %}
 
 <h1 class="page-title">
-  <a href="/">Chronological</a> | <a href="/">{{ page.title }}</a> | <a href="/tags">Tags</a>
+  <a href="/">Writings</a> | <a href="/categories">{{ page.title }}</a> | <a href="/tags">Tags</a>
 </h1>
 
 <div class="posts">
   <div class="tags-expo-list">
     {% for tag in site.categories %}
-    <a href="#{{ tag[0] | slugify }}" class="post-tag">{{ tag[0] }}</a>
+    <a class="post-tag" href="#{{ tag[0] | slugify }}">{{ tag[0] }}</a>
     {% endfor %}
   </div>
   <hr/>
