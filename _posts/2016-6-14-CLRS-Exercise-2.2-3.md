@@ -1,8 +1,8 @@
 ---
 layout: post
-title: CLRS - Exercise 2.2-3 Mathematical Induction
+title: CLRS Exercise 2.2-3 Mathematical Induction
 category: Algorithms and Data Structures
-tags: [induction, proofs]
+tags: [induction, proofs, clrs, algorithm]
 ---
 
 Use mathematical induction to show that when $n$ is a power of $2$ (namely $n = 2^k$) the following recurrence:

@@ -2,7 +2,7 @@
 layout: post
 title: Why web apps are the future
 category: Web
-tags: [Web applications]
+tags: [web applications]
 ---
 
 This short article is intended to share some of my thoughts on the future of the web.
