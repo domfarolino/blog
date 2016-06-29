@@ -15,12 +15,12 @@ tags: [induction, proofs, clrs, algorithm, sorting]
 > which $\frac{n}{k}$ sublists of length $k$ are sorted using insertion sort and then merged
 > using the standard merging mechanism, where $k$ is a value to be determined.
 
-# a.) Show that insertion sort can sort the $\frac{n}{k}$ sublists, each of length $k$, in $O(nk)$.
+# Show that insertion sort can sort the $\frac{n}{k}$ sublists, each of length $k$, in $O(nk)$.
 Insertion sort can sort a $k$ size sublist in $k^2$. We'll be doing this $\frac{n}{k}$ times.
 
 $$(k^2)(\frac{n}{k}) = (nk) = O(nk)$$
 
-# b.) Show how to merge the sublists in $O(n\log(\frac{n}{k}))$ worst-case time.
+# Show how to merge the sublists in $O(n\log(\frac{n}{k}))$ worst-case time.
 
 There are many ways look at this problem. I'll start with a few I found to logically
 come about the answer and follow up with a formal proof.
@@ -98,4 +98,15 @@ Prove that a binary tree with $2^{i+1}$ leaf nodes has one more level than a bin
 
 $$\log(2^{i+1}) = (i + 1) + 1 = i + 2 \quad\boxed{\checkmark}$$
 
-#c.) Coming soon
+# What is the largest value of $k$ as a function of $n$ for which the modified algorithm has the same running time as standard merge sort, in terms of $O$ notation?
+
+> Given that the modified algorithm runs in $O(nk + n\log(\frac{n}{k}))$ worst-case time, what
+> is the largest value of $k$ as a function of $n$ for which the modified algorithm has the same
+> running time as standard merge sort, in terms of $O$ notation?
+
+The question is really asking, how large can $k$ get before $O(nk + n\log(\frac{n}{k}))$ ends up being more inefficient than $O(n\log(n))$. So we
+must look at when $O(nk + n(\log(\frac{n}{k}))) > O(n\log(n))$. Let's simplify our equation.
+
+$$ O(nk + n\log(\frac{n}{k})) = O(nk + n\log(n) - n\log(k)) = O(nk + n\log(n)) $$
+
+It's obvious that when $k > log(n)$, $O(nk + \log(n))$ becomes more inefficient than $O(n\log(n))$ as the $nk$ term grows asymptotically larger than $\log(n)$.
