@@ -17,6 +17,7 @@
     background: $theme-color;
     color: $white;
   }
+  transition: all .1s ease-in-out;
   //@include transition(all .1s ease-in-out);
 }
 
@@ -42,6 +43,7 @@
       padding: 0;
       li {
         //@include transition(all .1s ease-in-out);
+        transition: all .1s ease-in-out;
         padding: 0 1rem;
         &:hover {
           list-style-type: disc;
