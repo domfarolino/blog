@@ -110,3 +110,7 @@ must look at when $O(nk + n(\log(\frac{n}{k}))) > O(n\log(n))$. Let's simplify o
 $$ O(nk + n\log(\frac{n}{k})) = O(nk + n\log(n) - n\log(k)) = O(nk + n\log(n)) $$
 
 It's obvious that when $k > log(n)$, $O(nk + \log(n))$ becomes more inefficient than $O(n\log(n))$ as the $nk$ term grows asymptotically larger than $\log(n)$.
+
+# How should we choose $k$ in practice?
+
+The constant factors of insertion and merge sort will determine exactly when insertion sort is better than merge sort. Running tests will be necessary to determine this. 
