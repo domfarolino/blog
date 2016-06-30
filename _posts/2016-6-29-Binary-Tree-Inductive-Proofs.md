@@ -49,8 +49,8 @@ of them is completely filled to its max. Every perfect binary tree will look lik
 
 ## Relationship between $N$ and $H$ of a perfect binary tree
 
-If we try and calculate how many nodes $N$ exist in a perfect binary tree of size $H$ we can tabulate the
-following data:
+If we try and calculate how many nodes $N$ exist in a perfect binary tree of height
+$H$ we can tabulate the following data:
 
 $$
   \boxed{
@@ -108,7 +108,7 @@ $$H = \log(N+1) - 1 \text{ where } \log \text{ is } \log_2$$
 This is intuitive by looking at the table, as we can see at every level we are
 one node short of making a perfect power of two. We add one ($N+1$), to create
 this perfect power of two, then subtract one from $\log(N+1)$. This appears to
-give us our height. 
+give us our height.
 
 ### Base case
 
@@ -120,10 +120,10 @@ Assume that for a tree with $N$ nodes, $H = \log(N+1) - 1$.
 
 ### Inductive step
 
-To get our perfect binary tree onto the next level, we can make the observation
-that we add $N+1$ leaves to our current $N$ nodes. This is part of our inductive
+To get our perfect binary tree to the next height, we can make the observation
+that we must add $N+1$ leaves to our current $N$ nodes. This is part of our inductive
 hypothesis and we now need to prove that a tree with $N + (N + 1)$ nodes has a height
-of $H+1$.
+of $H+1$ or $log(N+1)$.
 
 $$
 \begin{align}
@@ -131,11 +131,68 @@ $$
       & = \log(N + 1 + N + 1) - 1 \\\
       & = \log(2n + 2) - 1 \\\
       & = \log(2(n + 1)) - 1 \\\
-      & = \log(2) + log(n+1) - 1 \\\
-      & = 1 + log(n+1) - 1 \\\
+      & = \log(2) + \log(n+1) - 1 \\\
+      & = 1 + \log(n+1) - 1 \\\
       & = 1 + H \quad \blacksquare \\\
   \end{align}
 $$
+
+## Relationship between $N$ and $L$ of a perfect binary tree
+
+All binary trees have two types of nodes, internal nodes and leaves. Internal
+nodes parent at least $1$ child. In perfect binary trees, internal nodes must
+parent exactly $2$ children. Leaves are nodes which have exactly $0$ children.
+
+If we try and calculate how many nodes $L$ exist in a perfect binary tree of size
+$N$ we can tabulate the following data:
+
+$$
+  \boxed{
+    \begin{array}{c|c}
+      \text{Nodes } N & \text{Leaves } L \\\
+      \hline
+      1 & 1 \\\
+      \hline
+      3 & 2\\\
+      \hline
+      7 & 4\\\
+      \hline
+      15 & 8\\\
+    \end{array}
+  }
+$$
+
+The mathematical relationship we can deduce between the number of nodes in a perfect tree $N$, and
+the number of leaves $L$ appears to be:
+
+$$L = \frac{N+1}{2}$$
+
+This means the number of leaves grows linearly with the number of total nodes. Let's prove this by induction.
+
+## Base case
+
+A tree with $1$ node has $\frac{1+1}{2} = 1$ leaf node.
+
+## Assumption
+
+Let's assume that the equation $L = \frac{N+1}{2}$ is true for all perfect trees with $N$ nodes.
+
+## Inductive step
+
+We can see see that the number of leaves double every time we go to a new level, so we need to prove
+that the number of leaves double when we add $N+1$ nodes to our current tree, to make a larger perfect tree.
+
+$$
+\begin{align}
+      2L \\\
+      & = \frac{N + 1 + N + 1}{2} \\\
+      & = \frac{2(N + 1)}{2} \\\
+      & = N + 1 \\\
+      & = 2L \quad \blacksquare \\\
+  \end{align}
+$$
+
+## Relationship between $H$ and $L$ of a perfect binary tree
 
 # Complete binary tree
 
@@ -144,3 +201,11 @@ Complete binary tree text here
 # Full binary tree
 
 All internal nodes are full. To add a value anywhere you'd be creating a new leaf
+
+# Good resources
+
+ - [Height of a tree with only one node](http://stackoverflow.com/questions/4065439/height-of-a-tree-with-only-one-node)
+ - [Binary tree height](http://stackoverflow.com/questions/1951091/binary-tree-height)
+ - [Carnegie Mellon tree lecture](https://www.cs.cmu.edu/~pattis/15-1XX/15-200/lectures/trees/lecture.html)
+ - [Height of a full binary tree](http://math.stackexchange.com/questions/329166/height-of-a-full-binary-tree)
+ - [Using graph theory concepts](https://en.wikipedia.org/wiki/Binary_tree#Using_graph_theory_concepts)
