@@ -88,7 +88,7 @@ Assume that for all perfect trees of height $H$, $N = 2^{H+1} - 1$.
 Prove that the formula works for a tree of height $H+1$, namely a tree of height $H+1$
 should have $2^{H+2} - 1$ total nodes.
 
-We can see that a tree of height $H+1$ will have $2^{H+1}$ more nodes than a tree of
+We can see that a tree of height $H+1$ will have $2^{H+1}$ more nodes (leaves) than a tree of
 height $H$, meaning we can write the number of nodes of a tree of height $H+1$ in terms
 of a tree with height $H$ as $2^{H+1} + 2^{H+1} - 1$.
 
@@ -103,11 +103,11 @@ $$
 
 This proof can also be done backwards solving for $H$ instead of $N$.
 
-$$\log(N+1) - 1 = H \text{ where } \log \text{ is } \log_2$$
+$$H = \log(N+1) - 1 \text{ where } \log \text{ is } \log_2$$
 
 This is intuitive by looking at the table, as we can see at every level we are
 one node short of making a perfect power of two. We add one ($N+1$), to create
-this perfect power of two, then subtract one from $log(N+1)$. This appears to
+this perfect power of two, then subtract one from $\log(N+1)$. This appears to
 give us our height. 
 
 ### Base case
@@ -128,9 +128,11 @@ of $H+1$.
 $$
 \begin{align}
       H+1 \\\
+      & = \log(N + 1 + N + 1) - 1 \\\
       & = \log(2n + 2) - 1 \\\
       & = \log(2(n + 1)) - 1 \\\
-      & = \log(2) + log(n+1) - 1
+      & = \log(2) + log(n+1) - 1 \\\
+      & = 1 + log(n+1) - 1 \\\
       & = 1 + H \quad \blacksquare \\\
   \end{align}
 $$
