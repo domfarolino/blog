@@ -110,16 +110,16 @@ Let's assume that any full binary tree with $I$ internal nodes has $I+1$ leaves.
 
 ### Inductive step
 
-Given a tree $T$ with $I+1$ internal nodes, take one of it's internal nodes whose
-children are both leaves and remove it's children. The node we selected now becomes
-a leaf node itself, making tree $T$ consist of only $I$ internal nodes which by our
-inductive hypothesis, must consist of $I+1$ leaves. Now add both children back to the
-node and notice the number leaves increases by $1 \text{ from } L+1 \Rightarrow L+2$ (as
-our selected node is no longer a leaf node) and the number of internal nodes increases from
-$I \Rightarrow I+1$ as our selected node is now an internal node. This means $T$ has $I+1$ internal
-nodes and $L+2$ leaves. This is what we get when we substitute $I$ from our inductive hypothesis with
-$I+1$, thus proving by induction, that all full trees have one more leaf $L$ than internal nodes $I \quad
-\blacksquare$.
+Let $T$ be a full binary tree with $I+1$ internal nodes. $T$
+has at least one internal node so it must have at least two leaves.
+Select a leaf $v$ at maximal depth so that $v$'s sibling is also a leaf
+at maximal depth. Remove $v$ and its sibling. The parent of $v$ and its sibling
+was an internalnode but is now a leaf. The resulting tree is a full binary tree with
+$I$ internal nodes which by the inductive hypothesis contains $L = I + 1$ leaves. Adding
+$v$ and its sibling back to their parent makes their parent an internal node again increasing
+the number of internal nodes from $I \Rightarrow I+1$ and the number of leaves from $I+1 \Rightarrow I+2$.
+This clearly equals $(I + 1) + 1$ thus proving by induction that the number of leaves for any full binary tree
+with $I$ internal nodes is $I+1 \quad \blacksquare$.
 
 ## 2.) The total number of nodes $N$ in a tree with $I$ internal nodes is $N = 2I + 1$
 
@@ -141,14 +141,15 @@ Let's assume that any full binary tree with $I$ internal nodes has $2I+1$ nodes
 
 ### Inductive step
 
-Given a tree $T$ with $I+1$ internal nodes, take one of it's internal nodes whose
-children are both leaves and remove it's children. $T$ now has one less internal node
-or $I$ internal nodes which by our inductive hypothesis means it has $2I+1$ total nodes.
-If we add the children back to our selected node, the number of internal nodes increases
-by $1 \text{ from } I \Rightarrow I+1$ and our total number of nodes $N$ increases by $2 \text{ from } 2I+1 \Rightarrow 2I+3$.
-This is what we get when we substitute $I$ from our inductive hypothesis with
-$I+1$, thus proving by induction, that all full trees with $I$ internal leaves have $2(I+1) + 1 \text{ total nodes } \quad
-\blacksquare$.
+Let $T$ be a full binary tree with $I+1$ internal nodes. $T$
+has at least one internal node so it must have at least two leaves.
+Select a leaf $v$ at maximal depth so that $v$'s sibling is also a leaf
+at maximal depth. Remove $v$ and its sibling, and let $T′$ be the resulting
+tree. The parent of $v$ and its sibling is an internal node in $T$ but a leaf
+in $T'$. $T'$ is a full binary tree with $I$ internal nodes which by the inductive
+hypothesis must contain $N = 2I + 1$ total nodes. Adding $v$ and $v$'s sibling back
+to their parent gives us $I+1$ internal nodes and $(2I + 1) + 2 = 2I + 3$ total nodes
+which clearly equals $2(I+1) + 1$.
 
 
 
