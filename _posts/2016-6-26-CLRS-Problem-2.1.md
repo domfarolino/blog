@@ -1,11 +1,11 @@
 ---
 layout: post
-title: CLRS Problem 2.1 Insertion sort on small arrays in merge sort
+title: CLRS Problem 2.1
 category: Algorithms and Data Structures
 tags: [induction, proofs, clrs, algorithm, sorting]
 ---
 
-2-1 Insertion sort on small arrays in merge sort
+2.1 Insertion sort on small arrays in merge sort
 
 > Although merge sort runs in $O(n\log(n))$ worst-case time and insertion sort runs
 > in $O(n^2)$ worst-case time, the constant factors in insertion sort can make it faster
