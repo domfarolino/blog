@@ -110,6 +110,6 @@ The number of comparisons bubblesort will make is:
 $$\sum_{i=1}^{n-1} {n - i} = \frac{n(n-1)}{2}$$
 
 Bubblesort will also make at most this many swaps. This makes the worst case of bubblesort $O(n^2)$, the
-same as insertion sort. Ideally we could make the best case of bubblesort $O(n)$, by creating some boolean
+same as insertion sort. Ideally we could make the best case of bubblesort $\Theta(n)$, by creating some boolean
 flag that tells us whether we swapped any values after the first iteration of the outer loop. If no swaps occur
 we can duck out early.
