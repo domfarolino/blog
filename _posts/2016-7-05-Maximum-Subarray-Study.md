@@ -23,30 +23,26 @@ intuition behind them, then touch on some of the performance tests I ran between
 
 # Dynamic Programming
 
-As per the norm with just about any dynamic programming problem we want to
-define the state of the subproblem we'll be looking at so we can figure out
-how exactly we can reuse previously calculated answers. It is common to keep
-some dp structure of optimized sub problem answers to try solve larger instances
-with. We then need to forge a relationship between the original problem and
-a subproblem so we can see how we'll use our dp structure. In this case we
-eventually want to return the sum of the maximum subarray within
-$A[0 \ldots n]$.
+As per the norm with just about any dynamic programming problem we want
+to maintain some structure of optimized subproblem answers to help us
+solve larger problem instances. First we need to define the state of the
+subproblem. Then we need to forge a relationship between the original
+problem and the subproblem so we can see how we'll use our dp structure.
+Eventually we want to return the sum of the maximum subarray within $A[0 \ldots n]$.
 
 ### Common DP Patterns
 
 A natural approach for this problem is to define the subproblem as a straight
 recursive definition. This means we want to figure out if we can relate the
 sum of the maximum subarray within $A[0 \ldots i]$ to the sum of the maximum
-subarray within $A[0 \ldots i-]$. Our dp array would contain values of the maximum
-subarray up until point $i \; \forall \; i \in \\{ 0 \ldots n-1 \\}$ such that
-$dp[i]$ gives us the sum of the maximum subarray within $A[0 \ldots i]$. The dp
+subarray within $A[0 \ldots i-1]$. Our dp array would contain sum of the maximum
+subarray within $A[0 \ldots k] \forall \; k \in \\{ 0 \ldots n-1 \\}$. The dp
 array would then be some non-decreasing series with the answer to our original
 problem sitting at the end. This is a fairly common dp pattern, unfortunately
-we can show right now that our chosen subproblem doesn't easily relate to
-instances of a larger size. For example if $A[0 \ldots i-1]$ was the following
-array:
+we can quickly show that our subproblem doesn't easily relate to instances of
+a larger size. For example if $A[0 \ldots i-1]$ was the following array:
 
-$$[-16, 100, 200, -1300, -1400]$$
+$$[-16, 100, 200, -1300, -500]$$
 
 our dp array would look like:
 
@@ -54,18 +50,30 @@ $$[-16, 100, 300, \;\; 300 \;, \;\; 300]$$
 
 The sum of the maximum subarray within $A[0 \ldots i-1] = 300$. This is true no
 matter how many values negating the sum come after the end of the *actual* maximum
-subarray $[100, 200]$ lying somewhere inside $A[0 \ldots i-1]$. The
-problem is we cannot extend our subproblem's answer to a larger instance because
-we don't know how many detrimental numbers in between the end of the true maximum
-subarray and some new number we would be forced to accept by bridging the gap. 
+subarray $[100, 200]$ lying somewhere inside $A[0 \ldots i-1]$. Consequently we
+cannot easily extend our subproblem's answer to a larger instance because we don't
+know how many detrimental numbers we may be forced to accept in order to bridge the
+gap between the end of the true maximum subarray, and some newly introduced number.
+Put differently, there's no guarantee that the last number of the subproblem is
+contained in it's maximum subarray.
 
-Knowing the sum of the maximum subarray **inside** some boundaries doesn't cut it. In
-order  to see how a previous subproblem can be extended, we need to know the sum of the
-maximum subarray ending with element $A[i-1]$. Then when we introduce element $i$ we can
-decide whether it is beneficial to tack on $A[i]$ to the current subarray or if $A[i]$ alone
-is bigger than the sum of maximum subarray ending in $A[i-1]$. The relation between subproblems
-and larger instances becomes more clear and our dp array will be used to store the sum of the
-maximum subarray ending in $i \; \forall \; i \in \\{ 0 \ldots n-1 \\}$. The dp array
-like this:
+In order to see how a previous subproblem can be extended, we need to know how the
+last element is going to affect the element we're introducing. We need to know the
+sum of the maximum subarray ending with element $A[i-1]$. Then we can introduce $A[i]$
+and decide whether it is beneficial to tack on $A[i]$ to the subarray or if we'd be
+better off keeping $A[i]$ separate (if previous subarray sum is negative). This
+relation between subproblems and larger instances becomes more clear and our dp array
+will be used to store the sum of the maximum subarray ending with element $k \; \forall \; k \in \\{ 0 \ldots n-1 \\}$.
+The dp array for the above example would look like this:
+
+$$[-16, 100, 300, -1000, -500]$$
+
+Then when we introduce $A[i]$ we know we don't want to concatenate it to
+our previous maximum subarray because whatever it's value is automatically
+beats its value plus a negative number. Our dp array will then consist of
+peaks and valleys. The answer to our original problem is the largest of these
+peaks. We can maintain a variable whose value only gets updated when we see a
+new maximum value in the dp array so we can return it right when we get to the
+end.
 
 --------
