@@ -43,7 +43,7 @@ larger size. For example if $A[0 \ldots i-1]$ was the following array:
 
 $$[-16, 100, 200, -1300, -500]$$
 
-our dp array would look like:
+with our current model our dp array would look like:
 
 $$[-16, 100, 300, \;\; 300 \;, \;\; 300]$$
 
@@ -59,20 +59,84 @@ is contained in it's maximum subarray.
 In order to see how a previous subproblem can be extended, we need to know how the
 last element is going to affect the element we're introducing. We need to know the
 sum of the maximum subarray ending with element $A[i-1]$. Then we can introduce $A[i]$
-and decide whether it is beneficial to tack on $A[i]$ to the subarray or if we'd be
-better off keeping $A[i]$ separate (if previous subarray sum is negative). This
+and decide whether it is beneficial to tack on $A[i]$ to the subproblem or if we'd be
+better off counting $A[i]$ separate (if previous subproblem sum is negative). This
 relation between subproblems and larger instances becomes more clear and our dp array
 will be used to store the sum of the maximum subarray ending with element $k \; \forall \; k \in \\{ 0 \ldots n-1 \\}$.
 The dp array for the above example would look like this:
 
 $$[-16, 100, 300, -1000, -500]$$
 
-Then when we introduce $A[i]$ we know we don't want to concatenate it to
-our previous maximum subarray because we'd already be starting off the sum
-at $-500$ before adding $A[i]$. Our dp array will then consist of
-peaks and valleys. The answer to our original problem is the largest of these
-peaks. We can maintain a variable whose value only gets updated when we see a
-new maximum value in the dp array so we can return it right when we get to the
-end.
+Then when we introduce $A[i]$ we know we don't want to add it to the
+maximum sum of the subarray ending in $A[i-1]$ because we'd already
+be starting the sum at $-500$. We'll only want to add $A[i]$ to the
+previous maximum sum if that sum is positive. Our dp array
+will then consist of peaks and valleys where the answer to our
+original problem is the largest of these peaks. We can maintain a
+variable whose value only gets updated when we see a new maximum value
+in the dp array so we can return it right when we get to the end. This
+is another common dp pattern differing slightly from keeping a
+non-decreasing array of subproblem values.
+
+We can further optimize the solution for $O(1)$ space complexity by
+realizing that to solve the problem for $A[0 \ldots i]$ we **only** need
+the value existing at $dp[i-1]$ and no previous data. This means we
+can maintain two variables `maxSum` and `currentSum` where `currentSum`
+acts as the ever-changing $dp[i-1]$ keeping track of the current maximum
+subarray ending in $i-1$. Every iteration we then update `currentSum` when
+we evaluate $A[i]$. We then update `maxSum` to be the larger of the two
+variables. Once we have the maximum value saved, we then send `currentSum`
+back to the trenches. By the end of the array the `currentSum` could very
+well be the smallest its ever been, but as long `maxSum` has captured the value
+of `currentSum` at its highest value that's all we need to return. The C++ code
+for this problem is as follows:
+
+```cpp
+/**
+ * This algorithm embodies
+ * the technique of keeping track
+ * of the maxSubarray we have come
+ * accross thus far. This gives us a
+ * one-pass O(n) solution
+ */
+tuple<int, int, int> maximumSubarrayLinear(vector<int> &nums) {
+  if (!nums.size()) return make_tuple(0, 0, 0);
+  int startIndex, endIndex, currentStartIndex, currentEndIndex;
+  int maxSum = INT_MIN, currentSum = 0;
+
+  for (int i = 0; i < nums.size(); ++i) {
+    if (nums[i] > currentSum + nums[i]) { // if (currentSum < 0) ex: [-200, 5] sum of maxSubarray = 5, not -195
+      // Start the 'current' subarray at a new index
+      currentStartIndex = i;
+      currentSum = nums[i];
+    } else {
+      // Update new 'current' subarray ending index
+      currentEndIndex = i;
+      currentSum = currentSum + nums[i];
+    }
+
+    if (currentSum > maxSum) {
+      startIndex = currentStartIndex;
+      endIndex = currentEndIndex;
+      maxSum = currentSum;
+    }
+  }
+
+  return make_tuple(startIndex, endIndex, maxSum);
+}
+
+```
+
+# Quick performance study
+
+A quick performance study of three solutions for this problem yields the
+expected results given the time complexity for each solution. The vector
+each solution worked on contained random values ranging from $0-20,000$
+and the maximum size of the vector was $4000$ elements. I originally did
+$10000$ element max vectors however the naive $O(n^2)$ solution smashed the
+other solutions to the button of the graph due to its inefficiency so I
+lightened the load a bit. 
+
+![performance study]({{ site.baseurl }}/images/2016-7-05-Maximum-Subarray-Study/plot.png)
 
 --------
