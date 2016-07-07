@@ -32,15 +32,14 @@ Eventually we want to return the sum of the maximum subarray within $A[0 \ldots 
 
 ### Common DP Patterns
 
-A natural approach for this problem is to define the subproblem as a straight
-recursive definition. This means we want to figure out if we can relate the
-sum of the maximum subarray within $A[0 \ldots i]$ to the sum of the maximum
-subarray within $A[0 \ldots i-1]$. Our dp array would contain sum of the maximum
-subarray within $A[0 \ldots k] \forall \; k \in \\{ 0 \ldots n-1 \\}$. The dp
-array would then be some non-decreasing series with the answer to our original
-problem sitting at the end. This is a fairly common dp pattern, unfortunately
-we can quickly show that our subproblem doesn't easily relate to instances of
-a larger size. For example if $A[0 \ldots i-1]$ was the following array:
+A natural approach is to frame the subproblem as a straight recursive definition.
+This means we want to figure out if we can relate the sum of the maximum subarray
+within $A[0 \ldots i]$ to the sum of the maximum subarray within $A[0 \ldots i-1]$.
+Our dp array would contain sums of maximum subarrays within $A[0 \ldots k] \forall \; k \in \\{ 0 \ldots n-1 \\}$.
+The array would then be some non-decreasing series with the answer to our original
+problem sitting at the end. This is a fairly common dp pattern, unfortunately we can
+quickly show that our idea of a subproblem doesn't easily relate to instances of a
+larger size. For example if $A[0 \ldots i-1]$ was the following array:
 
 $$[-16, 100, 200, -1300, -500]$$
 
@@ -48,14 +47,14 @@ our dp array would look like:
 
 $$[-16, 100, 300, \;\; 300 \;, \;\; 300]$$
 
-The sum of the maximum subarray within $A[0 \ldots i-1] = 300$. This is true no
-matter how many values negating the sum come after the end of the *actual* maximum
-subarray $[100, 200]$ lying somewhere inside $A[0 \ldots i-1]$. Consequently we
+It is true that the sum of the maximum subarray within $A[0 \ldots i-1] = 300$ no
+matter how many values negating this sum come after the end of the *actual* maximum
+subarray $[100, 200]$ which lies somewhere inside $A[0 \ldots i-1]$. Consequently we
 cannot easily extend our subproblem's answer to a larger instance because we don't
 know how many detrimental numbers we may be forced to accept in order to bridge the
-gap between the end of the true maximum subarray, and some newly introduced number.
-Put differently, there's no guarantee that the last number of the subproblem is
-contained in it's maximum subarray.
+gap between the end of the true maximum subarray, and some newly introduced number
+$A[i]$. Put differently, there's no guarantee that the last number of the subproblem
+is contained in it's maximum subarray.
 
 In order to see how a previous subproblem can be extended, we need to know how the
 last element is going to affect the element we're introducing. We need to know the
@@ -69,8 +68,8 @@ The dp array for the above example would look like this:
 $$[-16, 100, 300, -1000, -500]$$
 
 Then when we introduce $A[i]$ we know we don't want to concatenate it to
-our previous maximum subarray because whatever it's value is automatically
-beats its value plus a negative number. Our dp array will then consist of
+our previous maximum subarray because we'd already be starting off the sum
+at $-500$ before adding $A[i]$. Our dp array will then consist of
 peaks and valleys. The answer to our original problem is the largest of these
 peaks. We can maintain a variable whose value only gets updated when we see a
 new maximum value in the dp array so we can return it right when we get to the
