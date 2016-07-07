@@ -27,8 +27,9 @@ As per the norm with just about any dynamic programming problem we want
 to maintain some structure of optimized subproblem answers to help us
 solve larger problem instances. First we need to define the state of the
 subproblem. Then we need to forge a relationship between the original
-problem and the subproblem so we can see how we'll use our dp structure.
-Eventually we want to return the sum of the maximum subarray within $A[0 \ldots n]$.
+problem and the subproblem so we can see how we'll extend the answers in
+our dp structure. Eventually we want to return the sum of the maximum subarray
+within $A[0 \ldots n]$.
 
 ### Common DP Patterns
 
@@ -78,18 +79,20 @@ in the dp array so we can return it right when we get to the end. This
 is another common dp pattern differing slightly from keeping a
 non-decreasing array of subproblem values.
 
+# $O(1)$ space complexity optimization
+
 We can further optimize the solution for $O(1)$ space complexity by
 realizing that to solve the problem for $A[0 \ldots i]$ we **only** need
-the value existing at $dp[i-1]$ and no previous data. This means we
-can maintain two variables `maxSum` and `currentSum` where `currentSum`
-acts as the ever-changing $dp[i-1]$ keeping track of the current maximum
-subarray ending in $i-1$. Every iteration we then update `currentSum` when
-we evaluate $A[i]$. We then update `maxSum` to be the larger of the two
-variables. Once we have the maximum value saved, we then send `currentSum`
-back to the trenches. By the end of the array the `currentSum` could very
-well be the smallest its ever been, but as long `maxSum` has captured the value
-of `currentSum` at its highest value that's all we need to return. The C++ code
-for this problem is as follows:
+the value of the last subproblem and no data prior to it. This should tell
+us we can replace the array of subproblems with two variables `maxSum` and
+`currentSum` where `currentSum` acts as the ever-changing $dp[i-1]$ keeping
+track of the current maximum subarray ending in $i-1$. Every iteration we then
+update `currentSum` when we evaluate $A[i]$. We then update `maxSum` to be the
+larger of the two variables. Once we have the maximum value saved, we then send
+`currentSum` back to the trenches. By the end of the array the `currentSum` could
+very well be the smallest its ever been, but as long `maxSum` has captured the value
+of `currentSum` at its highest value that's all we need to return. The C++ code for
+this problem is as follows:
 
 ```cpp
 /**
@@ -132,11 +135,9 @@ tuple<int, int, int> maximumSubarrayLinear(vector<int> &nums) {
 A quick performance study of three solutions for this problem yields the
 expected results given the time complexity for each solution. The vector
 each solution worked on contained random values ranging from $0-20,000$
-and the maximum size of the vector was $4000$ elements. I originally did
-$10000$ element max vectors however the naive $O(n^2)$ solution smashed the
-other solutions to the button of the graph due to its inefficiency so I
-lightened the load a bit. 
+with a $33%$ chance the value was negative. The maximum size of the vector
+was $4,000$ elements. I originally did a max of $10,000$ elements however
+the naive $O(n^2)$ solution smashed the other solutions to the button of
+the graph due to its inefficiency so I lightened it up a bit. 
 
-![performance study]({{ site.baseurl }}/images/2016-7-05-Maximum-Subarray-Study/plot.png)
-
---------
+![performance study]({{ site.baseurl }}/images/2016-7-07-Maximum-Subarray-Study/plot.png)
