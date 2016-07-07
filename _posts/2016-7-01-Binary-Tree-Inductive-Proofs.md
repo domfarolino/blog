@@ -10,6 +10,23 @@ This in turn provides an array of inductive proofs that can be applied different
 post is intended to cover some of the variations of binary trees and neat proofs relating to their number of nodes ($N$),
 number of internal nodes ($I$), number of leaves ($L$), and height ($H$).
 
+Table of contents:
+
+ - [Preface](#preface)
+ - [Categories of Binary Trees](#categories-of-binary-trees)
+ - [Full Binary Tree theorem proofs](#full-binary-tree-theorem-proofs)
+   - [Relationship between $L$ and $I$ of a full binary tree](#full-binary-tree-proof-1)
+   - [Relationship between $N$ and $I$ of a full binary tree](#full-binary-tree-proof-2)
+   - [Relationship between $N$ and $L$ of a full binary tree](#full-binary-tree-proof-3)
+   - [Alternative proof based on tree splitting](#full-binary-tree-proof-3-alternative)
+ - [Perfect Binary Tree proofs](#perfect-binary-tree-proofs)
+   - [Relationship between $N$ and $H$ of a perfect binary tree](#perfect-binary-tree-proof-1)
+   - [Relationship between $N$ and $L$ of a perfect binary tree](#perfect-binary-tree-proof-2)
+   - [Relationship between $H$ and $L$ of a perfect binary tree](#perfect-binary-tree-proof-3)
+ - [Good resources](#good-resources)
+   
+
+<a name="preface"></a>
 # Preface
 
 Before we continue with the specifics of binary trees let's make sure we've got some accurate fundamental definitions.
@@ -32,6 +49,7 @@ height of a tree with $1$ node $H = 0$.
 > the node to the tree's root node. A root node will
 > have a depth of 0.
 
+<a name="categories-of-binary-trees"></a>
 # Categories of Binary Trees
 
 Often binary trees can be classified as at least one of the following:
@@ -81,6 +99,7 @@ any perfect also meets the requirements of both complete and full
 trees and complete trees meet the requirements of full trees.
 Full trees are just full, or sometimes called "strictly" binary trees.
 
+<a name="full-binary-tree-theorem-proofs"></a>
 # Full Binary Tree Theorem
 
 Since full trees have loosest restrictions put on them, just about
@@ -93,6 +112,7 @@ the relationships between the number of nodes $N$, leaves $L$, and internal node
 remain the same. If you are given any one of those values, you can easily find the other
 two. The following proofs make up the **Full Binary Tree Theorem**.
 
+<a name="full-binary-tree-proof-1"></a>
 ## 1.) The number of leaves $L$ in a full binary tree is one more than the number of internal nodes $I$
 
 We can prove $L = I + 1$ by induction.
@@ -124,6 +144,7 @@ nodes from $I \Rightarrow I+1$ and the number of leaves from $I+1 \Rightarrow I+
 $(I + 1) + 1$ thus proving by induction that the number of leaves for any full binary tree with $I$ internal
 nodes is $I+1 \quad \blacksquare$.
 
+<a name="full-binary-tree-proof-2"></a>
 ## 2.) The total number of nodes $N$ in a full binary tree with $I$ internal nodes is $N = 2I + 1$
 
 Using the previous proof, we intuitively know that the number of leaves in
@@ -159,6 +180,7 @@ hypothesis must contain $N = 2I + 1$ total nodes. Adding $v$ and $v$'s sibling b
 to their parent gives us $I+1$ internal nodes and $(2I + 1) + 2 = 2I + 3$ total nodes
 which clearly equals $2(I+1) + 1$.
 
+<a name="full-binary-tree-proof-3"></a>
 ## 3.) The total number of nodes $N$ in a full binary tree with $L$ leaves is $N = 2L - 1$
 
 We can prove $N = 2L - 1$ (or $N = L + L - 1$) by induction.
@@ -201,6 +223,7 @@ not the only way to solve these, some may find splitting a tree at the root node
 subtrees as a more natural way to show that a tree with some qualities is an extension of a tree with
 some smaller qualities. As an added example I'll provide one such proof based on splitting a larger binary tree.
 
+<a name="full-binary-tree-proof-3-alternative"></a>
 ## #3 Alternative proof based on tree splitting
 
 ### Base case
@@ -229,12 +252,14 @@ $$2(L\_{left}) - 1 + 2(L\_{right}) - 1 + 1 = 2(L\_{left} + L\_{right}) - 2 + 1 =
 
 Thus proving by induction that all full binary trees with $L$ leaves have $N = 2L - 1$ total nodes for all $L \quad \blacksquare$.
 
+<a name="perfect-binary-tree-proofs"></a>
 # Perfect binary tree
 
-A perfect tree which has the tightest restraints on it allows us to
-introduce another variable to the relationship pool. This variable is
-the height $H$ of the tree.
+A perfect tree has the tightest restraints on it and consequently
+allows us to introduce another variable to the relationship pool.
+This variable is the height $H$ of the tree.
 
+<a name="perfect-binary-tree-proof-1"></a>
 ## Relationship between $N$ and $H$ of a perfect binary tree
 
 If we try and calculate how many nodes $N$ exist in a perfect binary tree of height
@@ -256,8 +281,8 @@ $$
   }
 $$
 
-The mathematical relationship we can deduce between the number of nodes in a perfect tree $N$, and
-it's height $H$ appears to be:
+The mathematical relationship we can deduce between the number
+of nodes in a perfect tree $N$, and it's height $H$ appears to be:
 
 $$N = 2^{H+1} - 1$$
 
@@ -265,7 +290,7 @@ We can prove this relationship with induction.
 
 ### Base case
 
-Trivial, a tree of height $0$ has $2^{0+1} - 1 = 2 - 1 = 1 \text{ node } \blacksquare$
+Trivial, a tree of height $0$ has $2^{0+1} - 1 = 2 - 1 = 1 \text{ node }$
 
 ### Assumption
 
@@ -291,10 +316,10 @@ $$
 
 This proof can also be done backwards solving for $H$ instead of $N$.
 
-$$H = \log(N+1) - 1 \text{ where } \log \text{ is } \log_2$$
+$$H = \log(N+1) - 1$$
 
 This is intuitive by looking at the table, as we can see at every level we are
-one node short of making a perfect power of two. We add one ($N+1$), to create
+one node short of making a perfect power of two. We add one ($N+1$) to create
 this perfect power of two, then subtract one from $\log(N+1)$. This appears to
 give us our height.
 
@@ -311,7 +336,7 @@ Assume that for a tree with $N$ nodes, $H = \log(N+1) - 1$.
 To get our perfect binary tree to the next height, we can make the observation
 that we must add $N+1$ leaves to our current $N$ nodes. This is part of our inductive
 hypothesis and we now need to prove that a tree with $N + (N + 1)$ nodes has a height
-of $H+1$ or $log(N+1)$.
+of $H+1$.
 
 $$
 \begin{align}
@@ -325,14 +350,11 @@ $$
   \end{align}
 $$
 
+<a name="perfect-binary-tree-proof-2"></a>
 ## Relationship between $N$ and $L$ of a perfect binary tree
 
-All binary trees have two types of nodes, internal nodes and leaves. Internal
-nodes parent at least $1$ child. In perfect binary trees, internal nodes must
-parent exactly $2$ children. Leaves are nodes which have exactly $0$ children.
-
-If we try and calculate how many nodes $L$ exist in a perfect binary tree of size
-$N$ we can tabulate the following data:
+If we try and calculate how many leaves $L$ exist in a perfect binary
+tree consisting of $N$ nodes we can tabulate the following data:
 
 $$
   \boxed{
@@ -380,10 +402,11 @@ $$
   \end{align}
 $$
 
+<a name="perfect-binary-tree-proof-3"></a>
 ## Relationship between $H$ and $L$ of a perfect binary tree
 
 This is by far the simplest and most intuitive of the proofs we'll go over. From the other
-tables you've probably noticed the number of leaves double from height to height. Further,
+tables you've probably noticed that the leaf count doubles from height to height. Further,
 the mathematical relationship we can deduce between the height $H$ and number of leaves $L$ is
 $L = 2^H$. Let's prove it by induction.
 
@@ -403,17 +426,11 @@ establish is:
 
 $$2(2^H) = 2^{H+1} \quad \blacksquare$$
 
-## The number of leaves in a non-empty full 
-
-# Complete binary tree
-
-Complete binary tree proofs coming soon
-
+<a name="good-resources"></a>
 # Good resources
 
- - [Height of a tree with only one node](http://stackoverflow.com/questions/4065439/height-of-a-tree-with-only-one-node)
- - [Binary tree height](http://stackoverflow.com/questions/1951091/binary-tree-height)
- - [Carnegie Mellon tree lecture](https://www.cs.cmu.edu/~pattis/15-1XX/15-200/lectures/trees/lecture.html)
- - [Height of a full binary tree](http://math.stackexchange.com/questions/329166/height-of-a-full-binary-tree)
  - [Wiki Binary Tree](https://en.wikipedia.org/wiki/Binary_tree)
+ - [Carnegie Mellon tree lecture](https://www.cs.cmu.edu/~pattis/15-1XX/15-200/lectures/trees/lecture.html)
  - [Full binary tree theorems](http://courses.cs.vt.edu/~cs3114/Fall09/wmcquain/Notes/T03a.BinaryTreeTheorems.pdf)
+ - [Binary tree height](http://stackoverflow.com/questions/1951091/binary-tree-height)
+ - [Height of a full binary tree](http://math.stackexchange.com/questions/329166/height-of-a-full-binary-tree)
