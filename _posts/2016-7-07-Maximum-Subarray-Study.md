@@ -38,9 +38,9 @@ This means we want to figure out if we can relate the sum of the maximum subarra
 within $A[0 \ldots i]$ to the sum of the maximum subarray within $A[0 \ldots i-1]$.
 Our dp array would contain sums of maximum subarrays within $A[0 \ldots k] \forall \; k \in \\{ 0 \ldots n-1 \\}$.
 The array would then be some non-decreasing series with the answer to our original
-problem sitting at the end. This is a fairly common dp pattern, unfortunately we can
-quickly show that our idea of a subproblem doesn't easily relate to instances of a
-larger size. For example if $A[0 \ldots i-1]$ was the following array:
+problem sitting at the end. This sort of tabulation is a fairly common dp pattern,
+unfortunately we can quickly show that our idea of a subproblem doesn't easily relate
+to instances of a larger size. For example if $A[0 \ldots i-1]$ was the following array:
 
 $$[-16, 100, 200, -1300, -500]$$
 
@@ -83,7 +83,8 @@ non-decreasing array of subproblem values.
 
 We can further optimize the solution for $O(1)$ space complexity by
 realizing that to solve the problem for $A[0 \ldots i]$ we **only** need
-the value of the last subproblem and no data prior to it. This should tell
+the value of the last subproblem and no data prior to it. The other tabulated
+subproblem answers are useless after they've been used once.This should tell
 us we can replace the array of subproblems with two variables `maxSum` and
 `currentSum` where `currentSum` acts as the ever-changing $dp[i-1]$ keeping
 track of the current maximum subarray ending in $i-1$. Every iteration we then
