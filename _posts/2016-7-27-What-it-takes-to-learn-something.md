@@ -38,11 +38,11 @@ To understand why these methods differ from just reading a book, we must underst
 across. This vehicle is language. We have developed language as a way to get what is in our heads, out to the world. The problem is
 the transfer is not $1 \Rightarrow 1$. In fact, much of what we try to express is lost when we cast our thoughts into our native tongue.
 Even more of the original thought process is lost when someone tries to interpret language, thus making langauge not the ideal vehicle
-for the transferrence of intuition.
+for the transference of intuition.
 
 Some things simply must be experienced to be understood and information in a book is often a linguistic attempt toward trying
 to transfer organic knowledge and persistent mental connection which is best formed when the brain figures something out
 (similar to a light bulb moment). True learning requires an experience as close to a natural discovery as possible, and this is
 only possible by meticulously and holistically understanding the fundamentals that appear in so many problems over and over again.
-After all, how do we even have those light bulb moments? Our subconscious pieices together bits of known information to make a solution
+After all, how do we even have those light bulb moments? Our subconscious pieces together bits of known information to make a solution
 in the background; often this known information can be utilized with a thorough understanding of the basics.
