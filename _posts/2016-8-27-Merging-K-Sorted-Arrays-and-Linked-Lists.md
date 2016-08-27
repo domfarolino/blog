@@ -48,4 +48,4 @@ $$\sum_{i = 2}^{k} {i \cdot n} = O(2n + 3n + 4n + 5n + ...) = O(nk^2)$$
 
 ## Merging $K$ sorted linked lists
 
-![data plot]({{ site.baseurl }}/images/2016-8-25-Merging-K-Sorted-Arrays-and-Linked-Lists/plot.png)
+![data plot]({{ site.baseurl }}/images/2016-8-27-Merging-K-Sorted-Arrays-and-Linked-Lists/plot.png)
