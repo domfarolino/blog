@@ -8,9 +8,8 @@ tags: [leetcode, algorithm, recursive, divide and conquer]
 Given the heads to two sorted linked lists, return a pointer to the head of a linked
 list containing all elements in both lists in sorted order.
 
-While this problem seems/is fairly straight forward, we can document some interesting
-implementation quirks and complexity differences we run into when working with linked
-data structures vs contiguous arrays.
+While this problem seems/is fairly straight forward, there are a few implementation and
+complexity differences we can look at when dealing with contiguous arrays vs linked lists.
 
 ## Merging 2 Sorted Arrays
 
@@ -32,9 +31,9 @@ one-by-one to the final list.
 
 Merging two sorted linked lists differs in implementation and complexity. For one, we can merge two
 sorted linked lists in $O(1)$ space. This is because we're working with pointers as opposed to elements
-in contiguous memory. When working with pointers we can make structural changes that affect $O(n)$ elements
-in $O(1)$ time and consequently we can merge two sorted linked lists in-place, then return the head of one
-sorted list. Let's take a closer look at how we'd do this.
+in contiguous memory. We don't have to actually copy and package up each value we see in each list when
+we come across it. Instead we just evaluate each element (linear time complexity), and change pointers
+around in-place if needbe. Let's take a closer look at how we'd do this.
 
 ```cpp
 // Sample list node
