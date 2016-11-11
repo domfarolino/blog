@@ -61,7 +61,7 @@ baseurl: ""
 #
 
 markdown: redcarpet
-highlighter: pygments
+highlighter: rouge
 permalink: /:title/
 
 tag_page: '/tags/'
