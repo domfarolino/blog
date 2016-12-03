@@ -95,7 +95,28 @@ The above interactive `CoolCard` Custom Element can be seen in this fiddle:
 <script async src="//jsfiddle.net/domfarolino/n39ntatm/embed/html,result/"></script>
 
 You can also provide an empty `<slot></slot>` element in your Custom Element's shadow DOM to act as a pass-through for any light DOM content that does not match a specific slot name. This is a perfect place for styles that match specific element such as `::slotted(div), ::slotted(h1)` etc to be applied since you can't guarantee a certain slot attribute will be set like it would in `<slot name="specificMatchingNameHere"></slot>`. Providing default styles for pass-through slotted elements is a good idea to ensure whatever the user passes in will match the basic styles of everything else in your Custom Element.
- 
-## Customized Built-in Elements 
+
+## Customized Built-in Elements
 
 So far we've only discussed the creation of "autonomous" Custom Elements which are a totally custom form of element. However, there also exists another type of Custom Elements. If some existing HTML element provides most of the functionality you'd like to use by default and you don't feel like recreating the wheel just to augment it, your Custom Element class/function constructor can literally extend this element instead of the `HTMLElement` interface. This might look like this:
+
+<script src="https://gist.github.com/domfarolino/abbc6d7a3693501bc43d0dc576cb11d0.js"></script>
+
+Notice that both the definition and registration of this kind of element differs. The usage of this kind of element also differs very greatly. The reason we told `customElements.define(...)` that we extend `"button"` is so we can use this Custom Element like this in our markup:
+
+```html
+<button is="cool-button">Click Me!</button>
+```
+
+## Polyfills
+
+So you've been introduced to this new and exciting `window.customElements` API, but can you use it everywhere? Unfortunately not :(. On the bright side the Web Components community has created several [polyfills](http://webcomponents.org/polyfills/) to emulate this technology in the browser, and provide helpful events you can listen to so that you know the polyfill(s) have been loaded successfully. There are also a couple variations of the polyfills designed to give you only what you need so you're not pulling down more code than is necessary.
+
+With this being a brief introduction to Custom Elements, there is much more to learn. Below are some great resources if you'd like to dig deeper:
+
+ - [What the heck is the shadow dom](https://glazkov.com/2011/01/14/what-the-heck-is-shadow-dom/)
+ - [Custom Elements](https://developers.google.com/web/fundamentals/getting-started/primers/customelements)
+ - [Shadow DOM](https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom)
+ - [Web Components](http://webcomponents.org/articles/introduction-to-custom-elements/)
+ - [All Web Components Polyfills](http://webcomponents.org/polyfills/)
+ - [Custom Elements Spec](https://www.w3.org/TR/custom-elements/)
