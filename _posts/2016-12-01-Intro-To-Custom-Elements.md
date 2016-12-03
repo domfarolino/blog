@@ -11,29 +11,91 @@ I recently discovered the new `customElements` API and after some experimentatio
 
 ## What's the big deal?
 
-Before digging into the mechanics of Custom Elements let's talk about why their so important.
+Before digging into the mechanics of Custom Elements let's talk about why they're so important.
 
-Prior to Custom Elements there was no clean way to associate JavaScript logic with some element's functionality. It is often not obvious from looking at markup that there may be JavaScript functionality associated with some element, however Custom Elements allows us to more tightly couple an element's definition and functionality.
+Prior to Custom Elements there was no clean way to associate JavaScript logic with an element's functionality. It is often not obvious from looking at markup that there may be JavaScript functionality associated with some element, however Custom Elements allows us to more tightly couple an element's definition and functionality.
 
-Custom Elements can also define their own internal markup, but furthermore can be given super powers when they utilize [`Shadow DOM`](http://w3c.github.io/webcomponents/spec/shadow/). In short, `shadow DOM` gives us the ability to produce a fully encapsulated self-contained DOM tree attached to some document. CSS defined in `shadow DOM` is completely contained inside this tree giving us two big benefits:
+Custom Elements can define their own internal markup, but furthermore can be given super powers when they utilize [`shadow DOM`](http://w3c.github.io/webcomponents/spec/shadow/). In short, `shadow DOM` gives us the ability to produce a fully encapsulated self-contained DOM tree attached to some element. As a result of this provided encapsulation, CSS style rules are constrained to the shadow tree they were defined in. This style encapsulation gives us two big benefits:
 
  - Styles will **not leak out** from this DOM to an outer tree
  - Styles from an outer tree will **not bleed into** this DOM
 
 It is important to realize that Custom Elements and shadow DOM are two separate things, and as such can be used independent of each other; however using them together allows us to create rock-solid reusable components.
 
+## Quick Shadow DOM Primer
+
+Shadow DOM v1 has a fairly simple API allowing a shadow tree to be attached to any document like this:
+
+```js
+somElement.attachShadow({mode: 'open'});
+```
+
+Shadow DOM v1 `attachShadow()` requires an object with `mode` property set to `open` or `closed`. In general you want to use `open` mode, but I won't be covering the specifics of both in this post. Once a shadow root is attached to some element you can treat it as a regular document. Note only one shadow root can be attached to an element - this means elements that have a shadow root by default (like `<input>`) cannot have another shadow root attached to them.
+
 ## Our First Custom Element
 
 We can define a Custom Element like this:
 
-```js
-class CoolCard extends HTMLElement {
-  constructor() {
-    super(); // MUST to allow HTMLElement interface to set itself up
-  }
-}
+<script src="https://gist.github.com/domfarolino/3cc609b871f534c9a7a6c2575938f30c.js"></script>
 
-customElements.define('cool-card', CoolCard);
+You can interact with the above example in the below fiddle:
+
+<script async src="//jsfiddle.net/domfarolino/799fo1r0/embed/html,result/"></script>
+
+```js
+if ('customElements' in window) {
+  customElements.define('element-name', ElementClass);
+}
 ```
 
-Note that CustomElements that do not extend some existing HTML element must extend the `HTMLElement` interface which allows our card to
+Custom Elements that do not extend the functionality of some existing HTML element can be registered with `window.customElements`'s `define()` function. This function takes in a tag name that must contain a hyphen (among some other requirements), and the corresponding element class/function constructor. Custom Elements that do not extend the functionality of an existing element must extend the `HTMLElement` interface. Implementing this interface allows our element to take the programatic shape a generic HTML element having properties like `style` and `tabIndex`, event handlers like `ontouchend` and `onpaste`, and methods like `click()` and `blur()`. For more information on this interface see [this](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement) article.
+
+Now with our Custom Element definition and registration in place users can can throw it around their markup with the `<cool-card></cool-card>` tag.
+
+## Element Callbacks
+
+In the above class I added the class function `connectedCallback()` to our Custom Element class. This is a synchronous callback that gets called when our `cool-card` gets inserted into the DOM and instantiated with our class. There are several other callbacks available for us to use as event hooks for our element. A full list can be found [here](https://developers.google.com/web/fundamentals/getting-started/primers/customelements#reactions).
+
+## Interacting with a Custom Element with `<slot>`
+
+So far we've seen a simple Custom Element that we can throw around with the `<cool-card></cool-card>`. This tag basically acts as a placeholder for all of its encapsulated markup, styles, and logic, however we can make the element more interactive by accepting some user defined markup to customize the content of a custom element. We can accept markup from a user, and this markup is called the `light DOM` and compose it with our shadow DOM by using the `<slot></slot>` element in our shadow DOM. This allows us to create some sort of an API for our element that we are responsible for telling the user of our element about. Consider the following shadow DOM:
+
+<script src="https://gist.github.com/domfarolino/071653d1886c3916fbed9c18a3e2ce27.js"></script>
+
+The above `<slot name="slotNameHere"></slot>` tag allows markup with the `slot` attribute set to `slotNameHere` to be infused in our shadow DOM, thus composing multiple DOM trees together. We can even style the user's DOM with the `::slotted(selector){}`. First let's check out some markup that can interact with this shadow DOM.
+
+<script src="https://gist.github.com/domfarolino/46f48631bad63974e6f16f92db6233b4.js"></script>
+
+It should be clear that the `<slot name="slotNameHere"></slot>` in the shadow DOM is analagous to the `<element slot="slotNameHere"></element>` in the user's light DOM. The styling of slotted light DOM is slightly more complex so let's take a look at a possible stylesheet:
+
+<script src="https://gist.github.com/domfarolino/2326099d38dc1887c2b34166cb4f44ed.js"></script>
+
+First off we can style the actual Custom Element itself with the `:host{}` selector which allows us to react stylistically, to attribute changes and class modifications. Next we can style elements from the light DOM with the `::slotted()` pseudo element. In the above gist I'm using an attribute selector with the slotted elements so that I can style whatever element a user passes in as my card's header, body, and footer. You of course could style any slotted elements like this:
+
+```css
+::slotted(div), ::slotted(h1) {
+  text-align: center;
+}
+```
+
+One caveat is that you **cannot style nested slotted elements**. For example the following style rules will never be applied:
+
+```css
+::slotted(div > .nestedElem) {
+  /* Sorry boss, cannot style nested slotted elements :( */
+}
+
+::slotted(div) > ::slotted(.nestedElem) {
+  /* Sorry boss, cannot style nested slotted elements :( */
+}
+```
+
+The above interactive `CoolCard` Custom Element can be seen in this fiddle:
+
+<script async src="//jsfiddle.net/domfarolino/n39ntatm/embed/html,result/"></script>
+
+You can also provide an empty `<slot></slot>` element in your Custom Element's shadow DOM to act as a pass-through for any light DOM content that does not match a specific slot name. This is a perfect place for styles that match specific element such as `::slotted(div), ::slotted(h1)` etc to be applied since you can't guarantee a certain slot attribute will be set like it would in `<slot name="specificMatchingNameHere"></slot>`. Providing default styles for pass-through slotted elements is a good idea to ensure whatever the user passes in will match the basic styles of everything else in your Custom Element.
+ 
+## Customized Built-in Elements 
+
+So far we've only discussed the creation of "autonomous" Custom Elements which are a totally custom form of element. However, there also exists another type of Custom Elements. If some existing HTML element provides most of the functionality you'd like to use by default and you don't feel like recreating the wheel just to augment it, your Custom Element class/function constructor can literally extend this element instead of the `HTMLElement` interface. This might look like this:
