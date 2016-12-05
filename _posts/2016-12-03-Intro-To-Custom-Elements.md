@@ -120,3 +120,7 @@ Since this is a brief introduction to Custom Elements, there is much more to lea
  - [Web Components](http://webcomponents.org/articles/introduction-to-custom-elements/)
  - [All Web Components Polyfills](http://webcomponents.org/polyfills/)
  - [Custom Elements Spec](https://www.w3.org/TR/custom-elements/)
+
+## Follow-up
+
+If you like what you read and want to chat about the web, you can follow me anywhere [@domfarolino](https://twitter.com/domfarolino) or grab my email from [my site](https://domfarolino.com) and shoot me a message!
