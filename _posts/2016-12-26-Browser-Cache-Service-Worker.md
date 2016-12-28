@@ -12,63 +12,80 @@ application with Node.js the first thing many developers do is type:
 > `npm install --save express`
 
 With express we have the choice to not worry about setting any response headers, including
-the ones in charge of telling the browser how to cache our content. In this post I want to
-give a brief overview of browser caching mechanics and the control we have. I then want to
-talk about how the service worker's lifecycle and cache play into all of this.
+ones that tell the browser how to cache content. In this post I want to give a brief overview
+of browser caching mechanics and the control we have. I then want to talk about how the service
+worker's lifecycle and cache play into all of this.
 
 # Browser Cache Fundamentals
 
-When the browser receives content from the server it also gets a list of HTTP headers. The headers contain
-data about the content being transferred. The server can send the client (browser) specific headers to instruct
-it to cache some of the content in order to minimize the amount of data transferred over the network on **future**
-requests for the same content. There are two types of headers the client can utilize for caching logic. The first
-type tells the client whether or not some content can be cached and if so for how long, while the second type is a
-validator that acts as a fingerprint for some content. The validator is used when the cached copy of some content
-is expired so we can quickly tell whether the client needs to redownload some content.
-
-For example, say the client receives a **massive** file from the server. The server might say "Hey client, you
-can cache this for up to 10 minutes". The client is then allowed to use its cached version of the asset for up
-to 10 minutes of requests before it must goes back to the server asking for an updated copy. But what if the copy
-on the server hasn't changed when the 10 minutes is up? In this case we'd prefer the client and server efficiently
-discuss whether the version that the client has is outdated (needs to be re-downloaded) or is still good for
-another 10 minutes. This efficient exchange of information is where the validator comes into play.
-
-## Headers
-
 ![Four Different Headers]({{ site.baseurl }}/images/2016-12-27/4-headers.png)
+
+When the browser receives content from the server it also gets a list of HTTP headers. The headers contain
+data about the content being transferred. The server can send specific headers to instruct the browser (client)
+to cache some content in order to minimize the amount of data transferred over the network on **future** requests
+for the same content. Two types of headers are used for client-side caching logic. The first type of header is a
+cache instruction header which tells the client whether or not some content can be cached and if so for how long.
+The second type is a validator which acts as a fingerprint for some content. If a request is made for content that
+appears in the cache but is expired, we need to validate the cached version with the server's version. The validator
+is used for this quick comparison (think checksum) allowing the client to *only* re-download content if its cache is
+out of date. For example, when sending some content the server may say:
+
+> "Hey client, you can cache this for up to 10 minutes".
+
+The client is then allowed to use its cached version of the asset for up
+to 10 minutes of requests before it must go back to the server asking for an updated copy. But what if the copy
+on the server hasn't changed when the 10 minutes is up? In this case we'd prefer the client and server efficiently
+discuss whether the version that the client has is outdated (needs to be re-downloaded) or is good for another 10
+minutes. This quick comparison is made possible by the validator.
+
+# Caching Instruction Headers
 
 Let's talk about how exactly the above conversation takes place. The server instructs the client to cache an
 asset with either the `Expires` or `Cache-Control` header. If both are provided, `Cache-Control` takes precedence
-and is the preferred way to instruct the browser cache on how to work. The `Cache-Control` header can take many
-different values (directives) explaining how an asset should be cached but in this post I'm going to briefly cover
-three that should be able to suit all of your needs.
+and is the preferred method of caching, so I'll be discussing it here. The `Cache-Control` header can take many
+different values (directives) explaining how an asset should be cached but I'm going to cover three that should
+cover all of your needs.
 
 ** Disclaimer: just because the server instructs a client to cache some asset does not guarantee it will be
-cached - the client has the right to ignore cache headers if the cache is full or needs to make room for newer content.
+cached. Clients have the right to ignore cache headers and/or drop things from the cache.
 
 ### Cache-Control: max-age=xxx
 
-It is common to instruct the browser to cache some asset for a number of seconds by sending the `Cache-Control: max-age=xxx`
-header. The cached version is considered "fresh" and can be served directly from the browser cache for the next `xxx` seconds
-at most. Cached responses may look like this:
+The `max-age` directive instructs a client to cache an asset for a number of seconds. The cache is considered "fresh"
+until the max-age is reached, and subsequent requests for it can be served directly from the browser cache. A request
+for a cached asset might look like this:
+
+![max-age fulfilled]({{ site.baseurl }}/images/2016-12-27/max-age.png)
 
 ### Cache-Control: no-cache
 
-`Cache-Control: no-cache` doesn't quite do what it sounds like it does. The `no-cache` directive actually instructs the
-browser to cache the content (IKR), but it MUST NOT serve the cached version of the asset without revalidating with the
-server.
+The `no-cache` Cache-Control directive isn't exactly intuitive. Contrary to popular belief this directive actually
+instructs the browser to cache the content (IKR), however the client MUST revalidate the content before serving from
+cache. If content has not changed on the server (regardless of whether headers have changed or not) the cached version
+will be served with an HTTP `304 Not Modified` response content.
+
+> So does `max-age=0` do the same thing as `no-cache`?
+
+Setting `max-age=0` means the content is considered stale, and some clients can be configured to return stale content
+though they **`SHOULD`** revalidate first. `no-cache` means the content is not even considered "stale", it is just considered
+unusable without successful revalidation. So really `no-cache` is more of a guarantee that revalidation will happen on subsequent
+requests. `no-cache` ensures revalidation will happen on clients that are configured to return stale responses. To force a client
+to revalidate stale content past its `max-age` the `must-revalidate` directive is also necessary. So really `no-cache` is short-hand
+for `max-age=0, must-revalidate`.
 
 ### Cache-Control: no-store
 
-Using `Cache-Control: no-store` instructs the browser to
+The `no-store` Cache-Contol directive is ruthless. It instructs the client to not cache the content AT ALL, and any requests
+must be re-downloaded from the server every time. This directive is rarely used and can be seen as a mechanism to prevent the
+leakage and storing of sensitive content.
 
-### Mixing max-age, no-cache, and no-store
+# Validation Headers
 
-Using `Cache-Control: max-age=xxx` instructs the browser to
+Now that we've learned how to instruct the client to cache content, we can dig into the validation of cache. When a request
+is made for a "stale" or "expired" asset the client *should* validate its contents with the server by sending validation headers.
+All available validation headers will be sent to the server, and if at least one indicates the asset on the server does not match the
+one the client has in cache, the asset must be re-downloaded.
 
-  - Workflow - the browser grabs contents and given headers, tries to minimize the amount of data 
-  - Cache-Control
-   - When will the browser go to the server for a response
   - ETag and W/Etag
   - ETag validation
   - 200 vs 200 (from x cache) vs 304
