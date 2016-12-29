@@ -22,29 +22,29 @@ worker's lifecycle and cache play into all of this.
 
 When the browser receives content from the server it also gets a list of HTTP headers. The headers contain
 data about the content being transferred. The server can send specific headers to instruct the browser (client)
-to cache some content in order to minimize the amount of data transferred over the network on **future** requests
-for the same content. Two types of headers are used for client-side caching logic. The first type of header is a
-cache instruction header which tells the client whether or not some content can be cached and if so for how long.
-The second type is a validator which acts as a fingerprint for some content. If a request is made for content that
-appears in the cache but is expired, we need to validate the cached version with the server's version. The validator
-is used for this quick comparison (think checksum) allowing the client to *only* re-download content if its cache is
-out of date. For example, when sending some content the server may say:
+to cache some content in order to minimize the amount of data transferred over the network on **future** requests.
+Two types of headers are used for client-side caching logic. The first type of header is a cache instruction header
+which tells the client whether or not some content can be cached and if so for how long. The second type is a validator
+which acts as a fingerprint for some content. If a request is made for content that appears in the cache but is expired,
+we need to validate the cached version with the server. The validator is used for this quick comparison (think checksum)
+allowing the client to keep its cached version if it is up to date. For example, when sending some content the server may
+say:
 
 > "Hey client, you can cache this for up to 10 minutes".
 
-The client is then allowed to use its cached version of the asset for up
-to 10 minutes of requests before it must go back to the server asking for an updated copy. But what if the copy
-on the server hasn't changed when the 10 minutes is up? In this case we'd prefer the client and server efficiently
-discuss whether the version that the client has is outdated (needs to be re-downloaded) or is good for another 10
-minutes. This quick comparison is made possible by the validator.
+The client can then use this cached version to fulfill up to 10 minutes of requests before it must go back to the
+server asking for an updated copy. But what if the copy on the server hasn't changed when the 10 minutes is up? In
+this case we'd prefer the client and server efficiently discuss whether the version in the client's cache is outdated
+(needs to be re-downloaded) or is good for another 10 minutes. This quick comparison is made possible by the validator.
 
 # Caching Instruction Headers
 
 Let's talk about how exactly the above conversation takes place. The server instructs the client to cache an
-asset with either the `Expires` or `Cache-Control` header. If both are provided, `Cache-Control` takes precedence
-and is the preferred method of caching, so I'll be discussing it here. The `Cache-Control` header can take many
-different values (directives) explaining how an asset should be cached but I'm going to cover three that should
-cover all of your needs.
+asset with either the `Expires` or `Cache-Control` header. `Expires` provides a time-stamp computed by the server
+wheras the newer and preferrd `Cache-Control` allows us to be more specific. If both are provided, `Cache-Control`
+takes precedence and is the preferred method of cache instruction, so I'll mostly be discussing it here. The `Cache-Control`
+header can take many different values (directives) explaining how an asset should be cached but I'm going to cover three that
+should cover all of your needs.
 
 ** Disclaimer: just because the server instructs a client to cache some asset does not guarantee it will be
 cached. Clients have the right to ignore cache headers and/or drop things from the cache.
@@ -81,10 +81,35 @@ leakage and storing of sensitive content.
 
 # Validation Headers
 
-Now that we've learned how to instruct the client to cache content, we can dig into the validation of cache. When a request
-is made for a "stale" or "expired" asset the client *should* validate its contents with the server by sending validation headers.
-All available validation headers will be sent to the server, and if at least one indicates the asset on the server does not match the
-one the client has in cache, the asset must be re-downloaded.
+Now that we've learned how to instruct the client to cache content, we can dig into the validation of such content. Validation
+headers are often sent to clients in conjunction with a cache instruction are most often sent alongside cache instruction headers (makes sense) but this is not mandatory.When a
+request is made for a "stale" or "expired" asset, the client should validate its contents with the server by sending any and
+all validation headers it got when it first received the content.
+
+### Weak and Strong Validators
+
+Validators can be weak or strong, and the difference between the two can be summed up with the following exerpt from the
+[IETF RFC7826 Sec:](https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.3.3)
+
+>...one normally would expect that if the entity (the entity-body or any entity- headers) changes in any way, then the
+>associated validator would change as well. If this is true, then we call this validator a "strong validator."
+>
+>However, there might be cases when a server prefers to change the validator only on semantically significant changes,
+>and not when insignificant aspects of the entity change. A validator that does not always change when the resource changes
+>is a "weak validator."
+
+### Last-Modified
+
+The `Last-Modified` validation header is a timestamp often associated with the `Expires` cache instruction header however it can
+be sent with `Cache-Control` or neither. Upon request for an expired or stale asset, the server will compare the `L-M` timestamp
+the client sent with the actual `L-M` timestamp of the requested resource. If the server deems the client's version as outdated
+it will fulfill the request with a `200 OK` response giving the client a fresh download. Likewise if the client's version is up
+to date, it will fulfill with a `304 Not Modified` instructing the client to use its cached version. The `L-M` header is by default
+a weak validator since a file could change multiple times in a single second.
+
+### ETag
+
+The `ETag` (Entity Tag) validator header is
 
   - ETag and W/Etag
   - ETag validation
