@@ -26,9 +26,9 @@ to cache some content in order to minimize the amount of data transferred over t
 Two types of headers are used for client-side caching logic. The first type of header is a cache instruction header
 which tells the client whether or not some content can be cached and if so for how long. The second type is a validator
 which acts as a fingerprint for some content. If a request is made for content that appears in the cache but is expired,
-we need to validate the cached version with the server. The validator is used for this quick comparison (think checksum)
-allowing the client to keep its cached version if it is up to date. For example, when sending some content the server may
-say:
+we should validate the cached version with the server, as it may be outdated. The validator is used for this quick comparison
+(think checksum) allowing the client to keep its cached version if it is up to date. For example, when sending some content the
+server may say:
 
 > "Hey client, you can cache this for up to 10 minutes".
 
@@ -37,22 +37,22 @@ server asking for an updated copy. But what if the copy on the server hasn't cha
 this case we'd prefer the client and server efficiently discuss whether the version in the client's cache is outdated
 (needs to be re-downloaded) or is good for another 10 minutes. This quick comparison is made possible by the validator.
 
-# Caching Instruction Headers
+# Cache Instruction Headers
 
-Let's talk about how exactly the above conversation takes place. The server instructs the client to cache an
-asset with either the `Expires` or `Cache-Control` header. `Expires` provides a time-stamp computed by the server
-wheras the newer and preferrd `Cache-Control` allows us to be more specific. If both are provided, `Cache-Control`
-takes precedence and is the preferred method of cache instruction, so I'll mostly be discussing it here. The `Cache-Control`
-header can take many different values (directives) explaining how an asset should be cached but I'm going to cover three that
-should cover all of your needs.
+Let's talk about how exactly the above conversation takes place. The headers of a response may instruct the client
+to cache an asset with either the `Expires` or `Cache-Control` header. `Expires` provides a timestamp computed by the
+server wheras the newer and preferrd `Cache-Control` allows us to be more specific. If both are provided, `Cache-Control`
+takes precedence and is the preferred method of cache instruction so I'll mostly be discussing it here. The `Cache-Control`
+response header can take many different values (directives) explaining how an asset should be cached but I'm going to cover
+three that should cover all of your needs.
 
 ** Disclaimer: just because the server instructs a client to cache some asset does not guarantee it will be
-cached. Clients have the right to ignore cache headers and/or drop things from the cache.
+cached. Clients have the right to ignore cache headers and/or evict things from the cache.
 
 ### Cache-Control: max-age=xxx
 
 The `max-age` directive instructs a client to cache an asset for a number of seconds. The cache is considered "fresh"
-until the max-age is reached, and subsequent requests for it can be served directly from the browser cache. A request
+until the max-age is reached, therefore subsequent requests for it can be served directly from the browser cache. A request
 for a cached asset might look like this:
 
 ![max-age fulfilled]({{ site.baseurl }}/images/2016-12-27/max-age.png)
