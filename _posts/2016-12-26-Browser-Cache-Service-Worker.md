@@ -20,8 +20,8 @@ worker's lifecycle and cache play into all of this.
 
 ![Four Different Headers]({{ site.baseurl }}/images/2016-12-27/4-headers.png)
 
-When the browser receives content from the server it also gets a list of HTTP headers. The headers contain
-data about the content being transferred. The server can send specific headers to instruct the browser (client)
+When the browser (client) receives content from a server it also gets a list of HTTP headers. The headers
+contain data about the content being transferred. The server can send specific headers to instruct the client
 to cache some content in order to minimize the amount of data transferred over the network on **future** requests.
 Two types of headers are used for client-side caching logic. The first type of header is a cache instruction header
 which tells the client whether or not some content can be cached and if so for how long. The second type is a validator
@@ -41,10 +41,10 @@ this case we'd prefer the client and server efficiently discuss whether the vers
 
 Let's talk about how exactly the above conversation takes place. The headers of a response may instruct the client
 to cache an asset with either the `Expires` or `Cache-Control` header. `Expires` provides a timestamp computed by the
-server wheras the newer and preferrd `Cache-Control` allows us to be more specific. If both are provided, `Cache-Control`
+server whereas the newer and preferrd `Cache-Control` allows us to be more specific. If both are provided, `Cache-Control`
 takes precedence and is the preferred method of cache instruction so I'll mostly be discussing it here. The `Cache-Control`
-response header can take many different values (directives) explaining how an asset should be cached but I'm going to cover
-three that should cover all of your needs.
+response header can take many different values (directives) explaining how an asset should be cached but in this post I'm
+going to cover three that should meeet all of your needs.
 
 ** Disclaimer: just because the server instructs a client to cache some asset does not guarantee it will be
 cached. Clients have the right to ignore cache headers and/or evict things from the cache.
@@ -60,8 +60,8 @@ for a cached asset might look like this:
 ### Cache-Control: no-cache
 
 The `no-cache` Cache-Control directive isn't exactly intuitive. Contrary to popular belief this directive actually
-instructs the browser to cache the content (IKR), however the client MUST revalidate the content before serving from
-cache. If content has not changed on the server (regardless of whether headers have changed or not) the cached version
+instructs the browser to cache content with the condition that the client MUST revalidate the content every time before
+serving from cache. If content has not changed on the server (regardless of whether headers have changed or not) the cached version
 will be served with an HTTP `304 Not Modified` response content.
 
 > So does `max-age=0` do the same thing as `no-cache`?
