@@ -83,8 +83,9 @@ the server on every request. This directive is rarely used and can be seen as a 
 Now that we've learned how to instruct the client to cache content through cache response directives, we can dig into the validation of such content. Validation
 headers are often sent to clients in conjunction with cache response directives (like `Cache-Control: max-age=60`) but this is not mandatory. As we've briefly
 discussed, when a request is made for a stale or expired asset the client should validate its cache with the origin server by sending any and all validation
-headers it has associated with a response. Once the server makes a determination it will most likely respond with either a partial `304 Not Modified` response
-instructing the client to use and "freshen" its cache, or a full `200 OK` response instructing the client to serve and update its cache with the new content.
+headers it has associated with the cached response. Once the server makes a determination it will most likely respond with either a partial `304 Not Modified`
+response instructing the client to use and "freshen" its cache, or a full `200 OK` response instructing the client to serve and update its cache with the new
+content.
 
 ### Weak and Strong Validators
 
@@ -100,25 +101,72 @@ Validators can be weak or strong, and the difference between the two can be summ
 
 ### Last-Modified
 
-The `Last-Modified` validation header is a timestamp often sent with the `Expires` cache instruction header, however, it can
-be sent with `Cache-Control` or neither. Upon request for an expired or stale asset, the server will compare the `L-M` timestamp
-the client sent with the actual `L-M` timestamp of the requested resource. If the server deems the client's version is outdated
-it will fulfill the request with a full `200 OK` response giving the client a fresh download. Likewise if the client's version is
-up to date, it will fulfill with a `304 Not Modified` instructing the client to use its cached version. The `L-M` header with
-specificity to the nearest second is a weak validator since a file could change more than one time in a single second without the
-validator reflecting this.
+The `Last-Modified` validation header is a timestamp with granularity to the nearest second. It is often sent in conjuction with
+the `Expires` cache instruction header however, it can be sent with `Cache-Control` or neither. Upon request for an expired or stale
+asset, the server will compare the `L-M` timestamp the client sent with the actual `L-M` timestamp of the requested resource. If the
+server deems the client's version is outdated it will fulfill the request with a full `200 OK` response giving the client a fresh download.
+Likewise if the client's version is up to date, it will fulfill with a `304 Not Modified` instructing the client to use its cached version.
+The `L-M` header is a weak validator since a file could change more than one time in a single second without the validator reflecting this.
 
 ### ETag
 
-The `ETag` (Entity Tag) validator header is by default a strong validator. ETags are normally some string that represent the current
-state of a document. It is common for an ETag to be generated based off of the hash of some file so it is an accurate representation
-of its contents however something as simple as revision `v1, v2, v3, ...` would work just as well. The key here is that the ETag value
-changes along with the resource it represents. An ETag can be declared as "weak" with the `W/` prefix.
+The `ETag` (Entity Tag) validator is by default strong. ETags are normally some string that represent the current state of a document. It is
+common for an ETag to be generated based off of the hash of some file so it is an accurate representation of its contents however something as
+simple as a revision string would suffice The key here is that the ETag value is not necessarily time-based, and of course changes along with the
+resource it represents. An ETag can be declared as "weak" with the `W/` prefix. Express uses weak ETags by default however this can be overridden
+with `app.set('etag', 'strong')`. Note this will not change the ETags sent with static served from `express.static(...)`. See [this](https://github.com/expressjs/expressjs.com/issues/600#issuecomment-195523630)
+thread for details.
 
-### ETags in Express
+# Cache Busting - Understanding initiator
 
-# Cache Busting - Understanding Initiator
+Suppose you publish several assets to your site instructing clients to cache them for 3600 seconds (1 hour) but then quickly realize you need to make
+a change that should be visible to everyone immediately. We haven't really covered a way to force the client to abandon its cache on our demand because
+if an item in cache is fresh, there's a good chance it will be used without talking to the server. This is still mostly true but there's a way to exploit
+a request's initiator that is useful when trying to "bust the cache".
 
-# Brief Overview of Service Worker Lifecycle
+When browsers make a request they keep track of what initiated the request. In DevTools the initiator field in the network tab can take on four values.
 
-# Service Worker cache + browser cache
+ 1. Parser - Chrome's HTML parser initiated the request
+ 1. Redirect - An HTTP redirect initiated the request
+ 1. Script - A script initiated the request
+ 1. Other - usually means the user, not Chrome, initiated the request
+
+The initiator field is pretty standard but some browsers treat requests from different initiators in different ways. In Chrome (tested on v54 Linux + OSX), if
+a user initiates a page refresh on a site whose assets exist in the browser cache, the request for the URL *may still* get revalidated with the server. Once validated,
+subsequent requests initiated by the page (perhaps parser/scripts) go through the browser cache as expected. So how can we use this to our advantage?
+
+> I made a simple app that allows you to test the setting and removal of certain cache headers easily - see [GitHub](https://github.com/domfarolino/browser-cache-fundamentals)
+
+First we publish some assets to our site. One of the assets in our site is a CSS file that gets pulled in through the `index.html` document.
+
+![css-gray-bg]({{ site.baseurl }}/images/2016-12-27/css-gray-bg.png)
+
+![grey-header]({{ site.baseurl }}/images/2016-12-27/grey-header.png)
+
+Changes made to the CSS file above may not appear in clients for another hour. As previously stated, we know some browsers may revalidate user URL requests more frequently
+than necessary and in Chrome a page refresh actually *may* trigger this revalidation. Below is output from an express server revalidating a request triggered by a Chrome refresh.
+Notice no other page assets (initiated by parser/script) are getting re-validated. They are going directly through the cache, since they are fresh and non-user initiated.
+
+![server-root-request]({{ site.baseurl }}/images/2016-12-27/server-root-request.png)
+
+If we make changes to our CSS nothing will change since clients, even those with revalidated markup, have no idea about this change.
+
+![css-rebecca-bg]({{ site.baseurl }}/images/2016-12-27/css-rebecca-bg.png)
+
+In order to tell the clients (ones that might revalidate user-initiated requests more frequently than necessary) about the change we can do the following.
+
+![cssv2-initiate]({{ site.baseurl }}/images/2016-12-27/cssv2-initiate.png)
+
+By changing the name or doing something as harmless as adding a query string to the filename, we've created a request for an asset that does not match the
+URL of any cached items. In this case, when the browser's parser comes across this content it will be forced to hit the server.
+
+![server-cssv2-request]({{ site.baseurl }}/images/2016-12-27/server-cssv2-request.png)
+
+Notice in the above picture, two requests (the only necessary ones) are fulfilled, and any other page request is able to go through the cache. The client now
+has the most up-to date styles and is looking rather dapper.
+
+![purple-header]({{ site.baseurl }}/images/2016-12-27/purple-header.png)
+
+The idea of changing a filename in some frequently revalidated markup is called "cache busting". It is common to see this in server side rendering, where the hash
+generated from the contents of an asset is used as the name of that asset in the markup. This way, whenever the file changes the markup changes thus forcing the browser
+to intelligently download new assets it needs.
