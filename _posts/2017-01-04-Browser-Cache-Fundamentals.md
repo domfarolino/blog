@@ -120,37 +120,31 @@ An ETag can be declared as "weak" with the `W/` prefix, which express uses by de
 
 Suppose you publish several assets to your site instructing clients to cache them for 3600 seconds (1 hour) but then quickly realize you need to make
 a change that should be visible to everyone immediately. We haven't really covered a way to force the client to abandon its cache on demand because
-there kind of isn't one, and this is still mostly true but there is a way to get around this issue by taking advantage of how some browsers treat user-initiated
-requests.
+there kind of isn't one, but there is a neat way to get around this issue.
 
-When a browser makes a request it keeps track of how the request was initiated. A request's initiator is visible in the network tab of your brower's developer tools.
-A request's initiator should take on one of the following values:
+The idea behind cache busting starts with the server instructing clients to cache static assets for a very long time, but forcing application routes
+to always be validated.
 
- 1. Parser - HTML parser initiated the request
- 1. Redirect - An HTTP redirect initiated the request
- 1. Script - A script initiated the request
- 1. Other - usually means the user
-
-The initiator field is pretty standard but some browsers treat requests from different initiators differently. In Chrome (tested on v54 Linux + OSX), if
-a user initiates a request for a site whose assets exist in the browser cache, the request for the URL *may still* get revalidated with the server. Once
-validated, subsequent requests initiated by the page (like css/scripts) go through the browser cache as expected. So how can we use this to our advantage?
+For example, when a user visits the root of your website **`/`** they will receive a single document. This document often contain links to external stylesheets
+and scripts which the browser's parser will make requests for as it reads the document. If we instruct the browser to cache these external assets for a very long
+time, we can still force a client to re-download changed content by making a change to the document they will always be revalidating. See this in action below:
 
 > I made a simple app that allows you to test the setting and removal of certain cache headers easily - see [GitHub](https://github.com/domfarolino/browser-cache-fundamentals)
 
-First we publish some assets to our site. One of the assets in our site is a CSS file that gets pulled in through the `index.html` document.
+First we publish some assets to our site, one of which is a stylesheet that gets pulled in through the `index.html` document.
 
 ![css-gray-bg]({{ site.baseurl }}/images/2017-01-04/css-gray-bg.png)
 
 ![grey-header]({{ site.baseurl }}/images/2017-01-04/grey-header.png)
 
-When using the `max-age=3600` Cache-Control directive, changes to the above file may not appear in clients for another hour. As previously stated, sometimes browers
-may revalidate user initiated URL requests more frequently than necessary, and in Chrome a page refresh *may* trigger this revalidation. Below is the output from an
-express server revalidating a request triggered by a Chrome refresh. Notice no other page assets initiated by the parser are getting re-validated. Subsequent page requests
-go through the cache as expected.
+The static assets on this page will be cached for a very long time, however the document (`index.html`) that holds the links to these assets gets revalidated every on every
+request via `Cache-Control: no-cache`. Below is the output from an express server revalidating a request triggered by a Chrome refresh. Notice no other page assets initiated
+by document are getting revalidated.
 
 ![server-root-request]({{ site.baseurl }}/images/2017-01-04/server-root-request.png)
 
-If we make changes to our CSS nothing will change since clients, even those with revalidated markup, have no idea about this change.
+Changes to this CSS file are never communicated to clients even with, as requests for it are going through the cache. The trick here is to modify the consistently revalidated
+document that puls this file in.
 
 ![css-rebecca-bg]({{ site.baseurl }}/images/2017-01-04/css-rebecca-bg.png)
 
@@ -158,16 +152,12 @@ In order to tell the clients (ones that might revalidate user-initiated requests
 
 ![cssv2-initiate]({{ site.baseurl }}/images/2017-01-04/cssv2-initiate.png)
 
-By changing the name or doing something as harmless as adding a query string to the filename, we've created a request for an asset that does not match the
-URL of any cached items. In this case, when the browser's parser comes across this content it will be forced to hit the server.
+By adding something as simple as a query string or even changing the name, the browser's parser creates a request for an asset that does not match the URL of any cached items.
+In this case the browser will be forced to go to the URL for it!
 
 ![server-cssv2-request]({{ site.baseurl }}/images/2017-01-04/server-cssv2-request.png)
 
-Notice in the above picture, two requests (the only necessary ones) are fulfilled, and any other page request is able to go through the cache. The client now
-has the most up-to date styles and is looking rather dapper.
+Notice in the above picture, two requests (the only necessary ones) are fulfilled, while other page requests are able to go through the cache as normal. The client now has the
+most up-to date styles yielding a very flattering purple header!
 
 ![purple-header]({{ site.baseurl }}/images/2017-01-04/purple-header.png)
-
-The idea of changing a filename in some frequently revalidated markup is called "cache busting". It is common to see this in server side rendering, where the hash
-generated from the contents of an asset is used as the name of that asset in the markup. This way, whenever the file changes the markup changes thus forcing the browser
-to intelligently download new assets it needs.
