@@ -1,30 +1,40 @@
 ---
 layout: post
-title: JavaScript - "in" Confusion
+title: JavaScript "in" Confusion
 category: Web
 tags: [javascript]
 ---
 
-The `in` operator when used with arrays in JavaScript can be a little vexing and I'd like to clear up some of the confusion. The `in` operator is strictly used to tell whether some given property name exists *in* some object or its `[[Prototype]]` chain. So how does this work for arrays? It is tempting to think `2` is `in [1, 2]`, but this will return false.
+The `in` operator, when used with arrays in JavaScript, comes with a little nuance and may be the cause of some confusion. The `in` operator is strictly used to
+tell whether a given property name exists *in* an object or its `[[Prototype]]` chain (and is enumerable, but we'll cover that later). So how does this work for arrays? It's tempting to
+think `2` is `in [1, 2]` but this will return false.
 
 # Why?
 
-Arrays are really just a type of `object` in JavaScript with integer-looking* property names. This means the `in` operator really just references enumerable indices in an array which act as property names for the array values. So in the above example, both `0` and `1` are `in [1, 2]` just as `0` and `1` are `in [99, 100]`. You're probably used to referencing elements in an array by passing some integer to the bracket operator like this: `array[0]`. For example the following array appears to have integer property names:
+Arrays are really just `objects` with integer-looking property names. So in the above example, both `0` and `1` are `in [1, 2]` just as `0` and `1` are `in [99, 100]`.
+But wait, you may have heard that all object property names in JavaScript are strings*, so how does the array allow integer indexing and `in` checking?
+
+You're probably used to referencing elements in an array by passing some integer to the bracket operator like this: `array[0]` right?. For example, following array *appears* to
+have integer property names:
 
 ![console array representation]({{ site.baseurl }}/images/2016-12-11-JavaScript-in-Confusion/console.png)
 
-On the contrary, you may know that all property names in JavaScript are really strings and arrays are just objects. Therefore if `array[0]` is ok, then `array['0']` and `array["0"]` should work out too. Hmm, so which is technically the *right* way to index an array, via string or integer? Furthermore which of the following is true?
+But in reality, array property names (you know them as indices) are strings just like in the object below.
 
- - When indexing an array with a string, e.g. `array["0"]`, the string is converted to an integer index
- - When indexing an array with an integer, e.g. `array[0]`, the integer is converted to a string index
+![console object representation]({{ site.baseurl }}/images/2016-12-11-JavaScript-in-Confusion/console2.png)
 
-As stated, ALL property names in JavaScript objects are strings, and since arrays are really just objects, string indices are technically more natural for the compiler as integers will need to be converted to strings before actual indexing occurs.
+The reason that `0 in array` works just as well as `0 in object` and `"0" in object` is because of JavaScript type coercion. Yes, it is exactly what it sounds like. When checking
+property existance with an integer, JavaScript coerces the integer into becoming a string by calling `toString()` before the property lookup.
 
 # Prove it Dom
 
-So given our previous evidence it makes sense to say there is some equivalence between `0 and '0'`, and in fact there is! This is the reason why JavaScript has a triple, or strict `===` equals sign. In JavaScript `0 == '0'` which means `array[0]` really makes the interpreter say *"Hey, is there some property name (string) on this object that == the given 0?"*. On the contrary, `0 === '0'` will return false.
+So given our previous evidence it makes sense to say there is some equivalence between `0 and "0"`, and in fact there is! This is precisely why the language has the triple or
+"strict" `===` equals operator. In JavaScript `0 == "0"` beacuse type coercian can make their values equivalent. This means `array[0]` really makes the interpreter say
+*"Hey, is there some property name on this object that == 0?"*. On the contrary, `0 === "0"` will return false.
 
-Now that we know `in` evaluates the existence of a property in some object it should be fairly obvious that a `for..in` loop will iterate through all of the enumerable properties in some object. I say *enumerable properties* because if a property has `enumerable` set to `false` in its data descriptor than it will not show up in a `for..in` loop even though it will accessible through a regular call to `in` outside of such iteration.
+Now that we know `in` evaluates the existence of a property in some object it should be fairly obvious that a `for..in` loop will iterate through all of the enumerable properties
+in some object. I say *enumerable properties* because if a property's data descriptor has `{enumerable: false}` it will not show up in a `for..in` loop even though it is accessible
+via a regular call to `in` outside of a loop.
 
 Consider the following example showing that arrays are just augmented objects:
 
