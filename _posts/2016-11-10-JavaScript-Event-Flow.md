@@ -2,7 +2,7 @@
 layout: post
 title: JavaScript Event Flow
 category: Web
-tags: [javascript, es6, web applications, web specs]
+tags: [javascript, es6, web applications, web standards]
 ---
 
 This article is intended to further your knowledge of the various phases a DOM event goes through.

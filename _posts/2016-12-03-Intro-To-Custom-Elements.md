@@ -2,7 +2,7 @@
 layout: post
 title: Intro To Custom Elements
 category: Web
-tags: [javascript, es6, web applications, web specs]
+tags: [javascript, es6, web applications, web standards]
 ---
 
 ## Custom Elements and Reusable Web Components
