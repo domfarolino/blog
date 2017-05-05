@@ -25,9 +25,10 @@ $$(k^2)(\frac{n}{k}) = (nk) = O(nk)$$
 There are many ways to look at this problem. I'll start with a few I found to logically
 come about the answer and follow up with a formal proof.
 
-Let's briefly go over why merge sort takes $O(n\log(n))$ time. Here's a table outlining the recursion
-tree produced by merge sort given an input array whose length, for simplicity, is a power of two.
-(Note this assumption does not change the actual asymptotic complexity).
+Let's briefly go over why merge sort takes $O(n\log(n))$ time. Here's a table
+outlining the recursion tree produced by merge sort given an input array whose
+length, for simplicity, is a power of two. (Note this assumption does not change
+the actual asymptotic complexity).
 
 $$
 \begin{array}{c||lcr}
@@ -45,33 +46,39 @@ n & 1 \\\
 \end{array}
 $$
 
-There are always $n$ elements at play, we just have to split them up enough times to get to the trivial case, then
-merge them starting at the deepest level of the tree. It may seem like we're not doing any work at the bottom level because the
-actual "merging" of elements begins at the next level up. However, the merging of 1 element is the base case telling us to stop and
-this "test" takes $O(1)$ time. Since the base case is hit $n$ times, the amount of work at this level is directly proportional to $n$.
-[Basic knowledge](#levels-induction) of binary trees tells us that a tree with $n$ leaves has $\log(n) + 1$ levels. The point of the
-improved merge sort is to not go through **all** levels of recursion. Instead, we want to
-[stop short](https://www.youtube.com/watch?v=IzkEFWrMVys) when the length of the input array reaches some size $k$.
+There are always $n$ elements at play, we just have to split them up enough times to get to the
+trivial case, then merge them starting at the deepest level of the tree. It may seem like we're
+not doing any work at the bottom level because the actual "merging" of elements begins at the next
+level up. However, the merging of 1 element is the base case telling us to stop and this "test"
+takes $O(1)$ time. Since the base case is hit $n$ times, the amount of work at this level is
+directly proportional to $n$. [Basic knowledge](#levels-induction) of binary trees tells us that
+a tree with $n$ leaves has $\log(n) + 1$ levels. The point of the improved merge sort is to not
+go through **all** levels of recursion. Instead, we want to
+[stop short](https://www.youtube.com/watch?v=IzkEFWrMVys) when the length of the input array
+reaches some size $k$.
 
-At this point, we'll have $\frac{n}{k}$ subarrays of length $k$. These subarrays will be the final leaves of the recursion tree. We
-can again apply our knowledge of binary trees to say there are $\log(\frac{n}{k}) + 1$ levels of recursion, if we stop when the
-input array is of length $k$. Since we still have to do "$n$" amount of work at each level, this gives us $cn(\log(\frac{n}{k})+1)$ total work.
-Dropping the lower order term, as is customary with big O notation, gives us the following **merge** complexity:
+At this point, we'll have $\frac{n}{k}$ subarrays of length $k$. These subarrays will be the
+final leaves of the recursion tree. We can again apply our knowledge of binary trees to say
+there are $\log(\frac{n}{k}) + 1$ levels of recursion, if we stop when the input array is of
+length $k$. Since we still have to do "$n$" amount of work at each level, this gives us
+$cn(\log(\frac{n}{k})+1)$ total work. Dropping the lower order term, as is customary with big
+$O$ notation, gives us the following **merge** complexity:
 
 $$O(n\log(\frac{n}{k}))$$
 
 ## Using log rules
 
 We [know](#levels-induction) there are $\log(n) + 1$ levels in an entire binary tree whose input
-array is of length $n$. There are $\log(k) + 1$ levels underneath, and including, the level whose input
-array is of length $k$. All of the levels beneath this one will never be touched with our modified
-version of merge sort. This means we can take the total number of levels in the tree ($\log(n) + 1$)
-and subtract the number of levels we'll never touch ($\log(k)$). This yields the following:
+array is of length $n$. There are $\log(k) + 1$ levels underneath, and including, the level whose
+input array is of length $k$. All of the levels beneath this one will never be touched with our
+modified version of merge sort. This means we can take the total number of levels in the tree
+($\log(n) + 1$) and subtract the number of levels we'll never touch ($\log(k)$). This yields the
+following:
 
 $$\log(n) + 1 - \log(k) = \log(\frac{n}{k}) + 1$$
 
-Dropping the lower order term and accounting for the "$n$" amount of work we do at each level gives us the same complexity
-calculated in the previous method.
+Dropping the lower order term and accounting for the "$n$" amount of work we do at each level
+gives us the same complexity calculated in the previous method.
 
 
 <a name="levels-induction"></a>
@@ -91,10 +98,12 @@ $$
 
 ### Assumption
 For simplicity, let's assume $n$ is a power of two such that $n = 2^i$ for $i >= 0$.
-We now assume that a binary tree with $2^i$ leaf nodes has $\log(2^i) + 1$, or $i+1$ levels.
+We now assume that a binary tree with $2^i$ leaf nodes has $\log(2^i) + 1$, or $i+1$
+levels.
 
 ### Inductive step
-Prove that a binary tree with $2^{i+1}$ leaf nodes has one more level than a binary tree with $2^i$ leaf nodes.
+Prove that a binary tree with $2^{i+1}$ leaf nodes has one more level than a binary
+tree with $2^i$ leaf nodes.
 
 $$\log(2^{i+1}) = (i + 1) + 1 = i + 2 \quad\boxed{\checkmark}$$
 
@@ -104,13 +113,16 @@ $$\log(2^{i+1}) = (i + 1) + 1 = i + 2 \quad\boxed{\checkmark}$$
 > is the largest value of $k$ as a function of $n$ for which the modified algorithm has the same
 > running time as standard merge sort, in terms of $O$ notation?
 
-The question is really asking, how large can $k$ get before $O(nk + n\log(\frac{n}{k}))$ ends up being more inefficient than $O(n\log(n))$. So, we
-must look at when $O(nk + n(\log(\frac{n}{k}))) > O(n\log(n))$. Let's simplify our equation.
+The question is really asking, how large can $k$ get before $O(nk + n\log(\frac{n}{k}))$ ends
+up being more inefficient than $O(n\log(n))$. So, we must look at when
+$O(nk + n(\log(\frac{n}{k}))) > O(n\log(n))$. Let's simplify our equation.
 
 $$ O(nk + n\log(\frac{n}{k})) = O(nk + n\log(n) - n\log(k)) = O(nk + n\log(n)) $$
 
-It's obvious that when $k > log(n)$, $O(nk + \log(n))$ becomes more inefficient than $O(n\log(n))$ as the $nk$ term grows asymptotically larger than $\log(n)$.
+It's obvious that when $k > log(n)$, $O(nk + \log(n))$ becomes more inefficient than
+$O(n\log(n))$ as the $nk$ term grows asymptotically larger than $\log(n)$.
 
 # How should we choose $k$ in practice?
 
-The constant factors of insertion and merge sort will determine exactly when insertion sort is better than merge sort. Running tests will be necessary to determine this.
+The constant factors of insertion and merge sort will determine exactly when insertion
+sort is better than merge sort. Running tests will be necessary to determine this.

@@ -14,7 +14,8 @@ Great resources to refer to:
 
 ## TL;DR
 
-Experiment with [this](https://gist.github.com/domfarolino/fdde99c1ad3fa1668a1849c33f87f437#file-index-html) HTML file to learn about the JavaScript event flow.
+Experiment with [this](https://gist.github.com/domfarolino/fdde99c1ad3fa1668a1849c33f87f437#file-index-html)
+HTML file to learn about the JavaScript event flow.
 
 # Event Flow
 
