@@ -14,7 +14,7 @@ they are almost all very winding, unpredictable, but thorough and rigorous. I th
 typical technical book urges you to take. Often it is very linear and tactfully thorough, like a recipe book. I
 use the term `tactfully thorough` because many books only have you rip apart a problem to see its internals and
 fundamentals at use if it goes together nicely with something used later in the text. The problem with this is
-that you're only *truly* experimenting inside a sandbox in which the boundaries are the author's wishes.
+that you're only *truly* experimenting inside a sandbox of which the boundaries are the author's wishes.
 
 So who are these authors? Often a book will be chosen due to some achievements attributed to the author, thus
 giving them some measure of notoriety and/or credibility. In other words, they are someone who has *made it* in the

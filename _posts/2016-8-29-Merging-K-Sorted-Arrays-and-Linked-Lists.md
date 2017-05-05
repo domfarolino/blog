@@ -17,7 +17,7 @@ There are several different ways to merge $k$ sorted contiguous arrays or linked
 sorted structure. In this post, I'll mainly be covering a method that takes advantage of a `merge()`
 function similar to what we use in `mergeSort()` to merge two sorted arrays or linked lists. If you
 are unfamiliar with the process of merging two sorted linked lists, check out my blog post
-[here](https://chinocode.com/Merging-Two-Sorted-Linked-Lists/) where I describe in detail the logic
+[here](https://blog.domfarolino.com/Merging-Two-Sorted-Linked-Lists/) where I describe in detail the logic
 behind the algorithm.
 
 For simplicity, let's assume each list has an average of $n$ elements.
@@ -52,7 +52,7 @@ vector<int> mergeInefficient(const vector<vector<int> >& multiList) {
 ```
 
 The code below applies to linked lists, given you have a function to merge two
-linked lists. Again, [this](https://chinocode.com/Merging-Two-Sorted-Linked-Lists/)
+linked lists. Again, [this](https://blog.domfarolino.com/Merging-Two-Sorted-Linked-Lists/)
 post covers that algorithm separately.
 
 ```cpp
@@ -80,7 +80,7 @@ $$O(n) + \sum_{i = 2}^{k} {i \cdot n} = O(n) + O(2n + 3n + 4n + 5n + ...) = O(nk
 The logic behind this algorithm is fairly simple and inefficient. Basically, we
 want to start with the first value of each of the $k$ vectors, pick the smallest
 value, and push it to our `finalList` vector. We then need to increment the index we're
-looking at for the vector we just took the min value from. This implies that we need
+keeping for the vector we just took the min value from. This implies that we need
 to keep some state of our progress made with each vector. A vector of vector iterators
 is used to hold our position in each of the $k$ vectors. While all iterators are not at
 the `.end()` of their corresponding list, we maintain a `minValue` variable, initialized
@@ -147,7 +147,7 @@ spread out the increasing lengths more evenly. The goal is to perform as many pa
 of the same size as we can before we start merging lists of a larger size. This keeps the size
 of each list at a minimum. We continue doing this until we merge $2$ lists of size $\frac{nk}{2}$
 into our final structure. In fact, this idea of pairwise merging is exactly how `mergeSort` gets
-its $O(n\log(n))$ time complexity.
+its $\Theta(n\log(n))$ time complexity.
 
 ![merge sort recursion tree]({{ site.baseurl }}/images/2016-8-29-Merging-K-Sorted-Arrays-and-Linked-Lists/tree.gif)
 

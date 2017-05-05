@@ -15,7 +15,7 @@ subarray problem into a recurrence almost identical to that of merge sort being 
 time complexity.
 
 In this post, I'm going to talk briefly about two $O(n)$ dynamic programming solutions and some of the
-intuition behind them. Then I'll touch on some of the performance tests I ran between three solutions:
+intuition behind them. I'll then touch on some of the performance tests I ran between three solutions:
 
  - Naive $O(n^2)$ time complexity
  - Divide and conquer $O(n\log(n))$ time complexity
@@ -79,7 +79,7 @@ in the dp array, so we can return it right when we get to the end. This
 is another common dp pattern differing slightly from keeping a
 non-decreasing array of subproblem values.
 
-# $O(1)$ space complexity optimization
+# $\Theta(1)$ space complexity optimization
 
 We can further optimize the solution for $O(1)$ space complexity by
 realizing that to solve the problem for $A[0 \ldots i],$ we **only** need
