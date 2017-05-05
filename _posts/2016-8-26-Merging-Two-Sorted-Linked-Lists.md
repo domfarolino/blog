@@ -21,11 +21,11 @@ array.
 Merging two sorted arrays has a simple enough implementation, due to the fact that we need space
 asymptotically linear to the total number of elements. Our space requirement gives us the tradeoff
 of easy implementation because we never modify the input arrays. Instead, we just follow the colloquially
-named "two finger algorithm" (not [Floyd's cycle detection](http://math.mit.edu/~rpeng/18434/cycleDetection.pdf)).
-Iterating through both input arrays and **copying** the smaller of the two values we're assessing
+named "two finger algorithm" (not [Floyd's cycle detection](http://math.mit.edu/~rpeng/18434/cycleDetection.pdf)),
+iterating through both input arrays and **copying** the smaller of the two values we're assessing
 into our final array. We then continue in the array we took the value from and repeat. The input
 array that has values left over once we exhaust the other gets its remaining elements **copied**
-one by one to the final list.
+one-by-one to the final list.
 
 ## Merging 2 Sorted Linked Lists
 
@@ -75,7 +75,7 @@ we shouldn't bother. However, that actually leads to an insidious bug. Let's mov
 
 ![list05]({{ site.baseurl }}/images/2016-8-26-Merging-Two-Sorted-Linked-Lists/list05.png)
 
-We've *incremented* `bCurr` and are at the case where `aCurr->data <= bCurr->data`. So we are focusing on
+We've *incremented* `bCurr` and are at the case where `aCurr->data <= bCurr->data`, so we are focusing on
 `aCurr` and figuring out what comes next. As with our logic earlier, we'll *only* set `aCurr->next = bCurr` if `bCurr` makes a compelling
 enough case (namely it is strictly less than the current `aCurr->next`). Since 6 < 80, we set `aCurr->next = bCurr` and *increment* `aCurr`.
 
