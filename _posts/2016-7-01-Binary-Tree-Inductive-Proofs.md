@@ -90,7 +90,7 @@ Perfect trees are given the following definition:
 > have the same depth or same level.
 
 This definition provides very rigid restrictions. All perfect
-trees will be shaped like the following:
+trees will be shaped as such:
 
 ![perfect binary tree]({{ site.baseurl }}/images/2016-7-01-Binary-Tree-Inductive-Proofs/perfect.png)
 
@@ -102,9 +102,9 @@ Full trees are just full, or sometimes called "strictly" binary trees.
 <a name="full-binary-tree-theorem-proofs"></a>
 # Full Binary Tree Theorem
 
-Since full trees have the loosest restrictions put on them, just about
-anything we prove for a full tree is automatically proved for a complete
-and perfect tree as well. So we'll start here with the **Full Binary Tree Theorem**.
+Since full trees have the loosest restrictions on them, just about
+anything we prove for a full tree automatically holds for complete
+perfect trees. So we'll start here with the **Full Binary Tree Theorem**.
 
 Luckily for us, the restriction put on full binary trees (that all internal nodes
 must have exactly two children) means that no matter what the shape of the tree is,
@@ -197,21 +197,21 @@ Let's assume that any full binary tree with $L$ leaves has $N = 2L - 1$ total no
 
 ### Inductive step
 
-Prove that all any full binary tree with $L+1$ leaves can have is $N = 2(L+1) - 1$ total nodes.
+Prove that all any full binary tree with $L+1$ leaves has $N = 2(L+1) - 1$ total nodes.
 
 Let $T$ be a full binary tree with $L+1$ leaves. Select a leaf $v$ at maximal depth such
 that $v$'s sibling is also a leaf at maximal depth. Remove both $v$ and $v$'s sibling and let
 $T'$ be the resulting tree. $T'$ is a full binary tree with $L$ leaves which, by our inductive
 hypothesis, must have $2L - 1$ total nodes $N$. Note $v$'s parent is now a leaf in tree $T'$.
 Add $v$ and $v$'s sibling back to their parent and notice the parent becomes an internal node.
-Thus, the tree loses one leaf but gains another two (that we added). The number of leaves increased by a total
-of $1 \text{ from } L \Rightarrow L+1$, while the number of nodes increased by two $2L - 1 + 2 = 2L + 1$.
-This clearly equals $2(L+1) - 1$, thus proving by induction that the number of total nodes $N$ in any full
-binary tree with $L$ leaves is $2L - 1 \quad \blacksquare$.
+Thus, the tree loses one leaf but gains another two (that we added). The number of leaves
+increased by a total of $1 \text{ from } L \Rightarrow L+1$, while the number of nodes increased
+by two $2L - 1 + 2 = 2L + 1$. This clearly equals $2(L+1) - 1$, thus proving by induction that
+the number of total nodes $N$ in any full binary tree with $L$ leaves is $2L - 1 \quad \blacksquare$.
 
 ---
 
-We've successfully proved, for all full trees, the relationships:
+We've successfully proved, for all full trees, the following relationships:
 
  - The number of leaves $L$ in a full binary tree is one more than the number of internal nodes $I$
  - The total number of nodes $N$ in a full binary tree with $I$ internal nodes is $N = 2I + 1$
@@ -221,7 +221,8 @@ Note that if each of these relationships is true, then solving for the other var
 true equation. Thus, we can create $6$ proofs from these $3$. Also, note that my solutions are
 not the only way to solve these. Some may find splitting a tree at the root node into two
 subtrees as a more natural way to show that a tree with some qualities is an extension of a tree with
-some smaller qualities. As an added example, I'll provide one such proof based on splitting a larger binary tree.
+some smaller qualities. As an added example, I'll provide one such proof based on splitting a larger
+binary tree.
 
 <a name="full-binary-tree-proof-3-alternative"></a>
 ## #3 Alternative proof based on tree splitting
@@ -234,7 +235,8 @@ Base case proves the theorem for $L = 1$ & $L = 2$.
 
 ### Strong inductive hypothesis
 
-Let's assume that any full binary tree with $L$ leaves has $N = 2L - 1$ total nodes for all $0 \leq L \leq K$.
+Let's assume that any full binary tree with $L$ leaves has $N = 2L - 1$ total nodes for all
+$0 \leq L \leq K$.
 
 ### Inductive step
 
@@ -243,14 +245,15 @@ a full binary tree, its subtrees $T\_{left}$ and $T\_{right}$ must have
 at least $1$ leaf each. This means $T\_{left}$ and $T\_{right}$ each have a number
 of leaves $< K+1$. Call these numbers $L\_{left}$ and $L\_{right}$ respectively.
 By our strong IH, they must have $2(L\_{left}) - 1$ and $2(L\_{right}) - 1$ total
-nodes respectively. $T$, therefore, has a number of nodes equal to the sum of the
+nodes respectively. $T$, therefore has a number of nodes equal to the sum of the
 number of nodes in each subtree, plus its root which appears outside of either subtree.
 Since the only node not appearing in either of $T$'s subtree is an internal node and
 not a leaf, the number of leaves $K+1$ in $T$ is equal to $L\_{left} + L\_{right}$.
 
 $$2(L\_{left}) - 1 + 2(L\_{right}) - 1 + 1 = 2(L\_{left} + L\_{right}) - 2 + 1 = 2(K+1) - 1 = 2(L+1) - 1$$
 
-Thus proving, by induction, that all full binary trees with $L$ leaves have $N = 2L - 1$ total nodes for all $L \quad \blacksquare$.
+Thus proving, by induction, that all full binary trees with $L$ leaves have $N = 2L - 1$ total
+nodes for all $L \quad \blacksquare$.
 
 <a name="perfect-binary-tree-proofs"></a>
 # Perfect binary tree
