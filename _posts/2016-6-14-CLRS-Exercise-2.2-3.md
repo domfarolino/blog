@@ -7,7 +7,8 @@ tags: [induction, proofs, clrs, algorithm]
 
 2.2-3 Mathematical Induction
 
-Use mathematical induction to show that when $n$ is a power of $2$ (namely $n = 2^k$), the following recurrence:
+Use mathematical induction to show that when $n$ is a power of $2$
+(namely $n = 2^k$), the following recurrence:
 
 $$
         T(n) =
@@ -19,7 +20,8 @@ $$
 
 $T(n) = n\log_2(n)$
 
-We're going to want to treat this problem like a regular proof of induction and use the following outline:
+We're going to want to treat this problem like a regular proof of
+induction and use the following outline:
 
  - Base case
  - Assumption
@@ -33,13 +35,15 @@ $$T(2^1) = T(2) = 2\log_2(2) = 2 \quad \boxed{\checkmark}$$
 
 #Assumption
 
-Now that we've worked out our base case, let's assume that the recurrence holds true for all values of $n = 2^k$ such that
+Now that we've worked out our base case, let's assume that the
+recurrence holds true for all values of $n = 2^k$ such that
 
 $$T(2^k) = 2^k\log_2(2^k) = 2^k(k)$$
 
 #Inductive step
 
-Next, we'll move onto proving that it works for $n = 2^{k+1}$ such that
+Next, we'll move onto proving that it works for $n = 2^{k+1}$ such
+that
 
 $$T(2^{k+1}) = 2^{k+1}\log_2(2^{k+1}) = 2^{k+1}(k+1)$$
 
@@ -60,7 +64,8 @@ Technically, we could stop here because we've already established
 
 $$T(2^k) = 2^x\log_2(2^x) = 2^x(x)$$
 
-However, only one trivial step is required to put the solution back in terms of $n$
+However, only one trivial step is required to put the solution back in
+terms of $n$
 
 $$k+1 = \log_2(2^{k+1})$$
 
