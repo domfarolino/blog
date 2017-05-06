@@ -6,7 +6,7 @@ tags: [induction, proofs, binary tree]
 ---
 
 The subject of binary trees provides a lot of variation, mainly in the number of ways in which they can be classified.
-This in turn provides an array of inductive proofs that can be applied differently dependent on your input data. This
+This, in turn, provides an array of inductive proofs that can be applied differently dependending on your input data. This
 post is intended to cover some of the variations of binary trees and neat proofs relating to their number of nodes ($N$),
 number of internal nodes ($I$), number of leaves ($L$), and height ($H$).
 
@@ -24,12 +24,12 @@ Table of contents:
    - [Relationship between $N$ and $L$ of a perfect binary tree](#perfect-binary-tree-proof-2)
    - [Relationship between $H$ and $L$ of a perfect binary tree](#perfect-binary-tree-proof-3)
  - [Good resources](#good-resources)
-   
+
 
 <a name="preface"></a>
 # Preface
 
-Before we continue with the specifics of binary trees let's make sure we've got some accurate fundamental definitions.
+Before we continue with the specifics of binary trees, let's make sure we've got some accurate fundamental definitions.
 
 ### Height of a node:
 
@@ -52,34 +52,34 @@ height of a tree with $1$ node $H = 0$.
 <a name="categories-of-binary-trees"></a>
 # Categories of Binary Trees
 
-Often binary trees can be classified as at least one of the following:
+Often, binary trees can be classified as at least one of the following:
 
  - Full (sometimes called proper or strictly) binary tree
  - Complete binary tree
  - Perfect binary tree
 
 Full trees are given the following definition:
-> a binary tree T is full if
+> A binary tree T is full if
 > each node is either a leaf or
-> possesses exactly two child nodes
+> possesses exactly two child nodes.
 
-This definition provides fairly loose restrictions on the tree allowing
-it to take many shapes. One example of a full tree would be this:
+This definition provides fairly loose restrictions on the tree, allowing
+it to take many shapes. One example of a full tree would be:
 
 ![full binary tree]({{ site.baseurl }}/images/2016-7-01-Binary-Tree-Inductive-Proofs/full.png)
 
 Complete trees are given the following definition:
-> a binary tree T with n
+> A binary tree T with n
 > levels is complete if all
 > levels except possibly the
 > last are completely full, and
 > the last level has all its nodes
-> to the left side
+> to the left side.
 
 This definition is more strict than the
 definition of a full tree, making all complete
-trees, *also* full trees. One example of a complete
-tree would be this:
+trees *also* full trees. One example of a complete
+tree would be:
 
 ![complete binary tree]({{ site.baseurl }}/images/2016-7-01-Binary-Tree-Inductive-Proofs/complete.png)
 
@@ -87,24 +87,24 @@ Perfect trees are given the following definition:
 > A perfect binary tree is a binary
 > tree in which all interior nodes
 > have two children and all leaves
-> have the same depth or same level
+> have the same depth or same level.
 
-This definition provides very rigid restrictions. This
-means all perfect trees will be shaped like the following:
+This definition provides very rigid restrictions. All perfect
+trees will be shaped as such:
 
 ![perfect binary tree]({{ site.baseurl }}/images/2016-7-01-Binary-Tree-Inductive-Proofs/perfect.png)
 
 There is some hierarchy here. As you might be able to see,
-any perfect also meets the requirements of both complete and full
-trees and complete trees meet the requirements of full trees.
+any perfect tree also meets the requirements of both complete and full
+trees. Complete trees meet the requirements of full trees.
 Full trees are just full, or sometimes called "strictly" binary trees.
 
 <a name="full-binary-tree-theorem-proofs"></a>
 # Full Binary Tree Theorem
 
-Since full trees have loosest restrictions put on them, just about
-anything we prove for a full tree is automatically proved for a complete
-and perfect tree so we'll start here with the **Full Binary Tree Theorem**.
+Since full trees have the loosest restrictions on them, just about
+anything we prove for a full tree automatically holds for complete
+perfect trees. So we'll start here with the **Full Binary Tree Theorem**.
 
 Luckily for us, the restriction put on full binary trees (that all internal nodes
 must have exactly two children) means that no matter what the shape of the tree is,
@@ -132,23 +132,23 @@ Let's assume that any full binary tree with $I$ internal nodes has $I+1$ leaves.
 Prove that any full binary tree wtih $I+1$ internal nodes has $I+2$ leaves.
 
 Let $T$ be a full binary tree with $I+1$ internal nodes. $T$
-has at least one internal node so it must have at least two leaves.
+has at least one internal node, so it must have at least two leaves.
 Select an internal node $i$ whose depth is maximal, let's say $h$. Being
-internal $i$ must have two children at depth $h+1$, which is greater than
-$h$ so $i$'s children cannot be internal (or else $i$ would not be an internal
-node at maximal height) so they must be leaves. Remove $i$'s children.
+internal, $i$ must have two children at depth $h+1$, which is greater than
+$h$. $i$'s children cannot be internal (or else $i$ would not be an internal
+node at maximal height), so they must be leaves. Remove $i$'s children.
 Node $i$ was an internal node but is now a leaf. The resulting tree is a full binary
-tree with $I$ internal nodes which by the inductive hypothesis contains $L = I + 1$ leaves.
-Adding $i$'s children back to $i$ makes it an internal node again increasing the number of internal
+tree with $I$ internal nodes which, by the inductive hypothesis, contains $L = I + 1$ leaves.
+Adding $i$'s children back to $i$ makes it an internal node again, increasing the number of internal
 nodes from $I \Rightarrow I+1$ and the number of leaves from $I+1 \Rightarrow I+2$. This clearly equals
-$(I + 1) + 1$ thus proving by induction that the number of leaves for any full binary tree with $I$ internal
+$(I + 1) + 1$, thus proving by induction that the number of leaves for any full binary tree with $I$ internal
 nodes is $I+1 \quad \blacksquare$.
 
 <a name="full-binary-tree-proof-2"></a>
 ## 2.) The total number of nodes $N$ in a full binary tree with $I$ internal nodes is $N = 2I + 1$
 
 Using the previous proof, we intuitively know that the number of leaves in
-a tree with $I$ internal nodes is $I+1$, therefore the total number of nodes
+a tree with $I$ internal nodes is $I+1$. Therefore, the total number of nodes
 $N$ in a tree with $I$ internal nodes is $I + I + 2 = 2I + 1$.
 
 We can also *prove* this by induction without using any other proofs.
@@ -165,19 +165,19 @@ Let's assume that any full binary tree with $I$ internal nodes has $2I+1$ total 
 
 ### Inductive step
 
-Prove that any full binary tree wtih $I+1$ internal nodes has $2(I + 1) + 1$ leaves.
+Prove that any full binary tree with $I+1$ internal nodes has $2(I + 1) + 1$ leaves.
 
-The following proof will have similar structure to the previous one however I
+The following proof will have similar structure to the previous one, however, I
 am using a different method to select an internal node with two child leaves.
 
 Let $T$ be a full binary tree with $I+1$ internal nodes. $T$
-has at least one internal node so it must have at least two leaves.
+has at least one internal node, so it must have at least two leaves.
 Select a leaf $v$ at maximal depth so that $v$'s sibling is also a leaf
-at maximal depth. Remove $v$ and its sibling, and let $T′$ be the resulting
+at maximal depth. Remove $v$ and its sibling and let $T′$ be the resulting
 tree. The parent of $v$ and its sibling is an internal node in $T$ but a leaf
-in $T'$. $T'$ is a full binary tree with $I$ internal nodes which by the inductive
-hypothesis must contain $N = 2I + 1$ total nodes. Adding $v$ and $v$'s sibling back
-to their parent gives us $I+1$ internal nodes and $(2I + 1) + 2 = 2I + 3$ total nodes
+in $T'$. $T'$ is a full binary tree with $I$ internal nodes which, by the inductive
+hypothesis, must contain $N = 2I + 1$ total nodes. Adding $v$ and $v$'s sibling back
+to their parent gives us $I+1$ internal nodes and $(2I + 1) + 2 = 2I + 3$ total nodes,
 which clearly equals $2(I+1) + 1$.
 
 <a name="full-binary-tree-proof-3"></a>
@@ -201,27 +201,28 @@ Prove that all any full binary tree with $L+1$ leaves has $N = 2(L+1) - 1$ total
 
 Let $T$ be a full binary tree with $L+1$ leaves. Select a leaf $v$ at maximal depth such
 that $v$'s sibling is also a leaf at maximal depth. Remove both $v$ and $v$'s sibling and let
-$T'$ be the resulting tree. $T'$ is a full binary tree with $L$ leaves which by our inductive
-hypothesis must have $2L - 1$ total nodes $N$. Note $v$'s parent is now a leaf in tree $T'$.
-Add $v$ and $v$'s sibling back to their parent and notice the parent becomes an internal node
-thus the tree loses one leaf, but gains another two (that we added). The number of leaves increased by a total
-of $1 \text{ from } L \Rightarrow L+1$ while the number of nodes increased by two $2L - 1 + 2 = 2L + 1$.
-This clearly equals $2(L+1) - 1$ thus proving by induction that the number of total nodes $N$ in any full
-binary tree with $L$ leaves is $2L - 1 \quad \blacksquare$.
+$T'$ be the resulting tree. $T'$ is a full binary tree with $L$ leaves which, by our inductive
+hypothesis, must have $2L - 1$ total nodes $N$. Note $v$'s parent is now a leaf in tree $T'$.
+Add $v$ and $v$'s sibling back to their parent and notice the parent becomes an internal node.
+Thus, the tree loses one leaf but gains another two (that we added). The number of leaves
+increased by a total of $1 \text{ from } L \Rightarrow L+1$, while the number of nodes increased
+by two $2L - 1 + 2 = 2L + 1$. This clearly equals $2(L+1) - 1$, thus proving by induction that
+the number of total nodes $N$ in any full binary tree with $L$ leaves is $2L - 1 \quad \blacksquare$.
 
 ---
 
-We've successfully proved for all full trees, the relationships:
+We've successfully proved, for all full trees, the following relationships:
 
  - The number of leaves $L$ in a full binary tree is one more than the number of internal nodes $I$
  - The total number of nodes $N$ in a full binary tree with $I$ internal nodes is $N = 2I + 1$
  - The total number of nodes $N$ in a full binary tree with $L$ leaves is $N = 2L - 1$
 
 Note that if each of these relationships is true, then solving for the other variable must yield a
-true equation. Thus we can create $6$ proofs from these $3$. Also note that my solutions are
-not the only way to solve these, some may find splitting a tree at the root node into two
+true equation. Thus, we can create $6$ proofs from these $3$. Also, note that my solutions are
+not the only way to solve these. Some may find splitting a tree at the root node into two
 subtrees as a more natural way to show that a tree with some qualities is an extension of a tree with
-some smaller qualities. As an added example I'll provide one such proof based on splitting a larger binary tree.
+some smaller qualities. As an added example, I'll provide one such proof based on splitting a larger
+binary tree.
 
 <a name="full-binary-tree-proof-3-alternative"></a>
 ## #3 Alternative proof based on tree splitting
@@ -234,7 +235,8 @@ Base case proves the theorem for $L = 1$ & $L = 2$.
 
 ### Strong inductive hypothesis
 
-Let's assume that any full binary tree with $L$ leaves has $N = 2L - 1$ total nodes for all $0 \leq L \leq K$.
+Let's assume that any full binary tree with $L$ leaves has $N = 2L - 1$ total nodes for all
+$0 \leq L \leq K$.
 
 ### Inductive step
 
@@ -243,19 +245,20 @@ a full binary tree, its subtrees $T\_{left}$ and $T\_{right}$ must have
 at least $1$ leaf each. This means $T\_{left}$ and $T\_{right}$ each have a number
 of leaves $< K+1$. Call these numbers $L\_{left}$ and $L\_{right}$ respectively.
 By our strong IH, they must have $2(L\_{left}) - 1$ and $2(L\_{right}) - 1$ total
-nodes respectively. $T$ therefore has a number of nodes equal to the sum of the
-number of nodes in each subtree plus its root which appears outside of either subtree.
+nodes respectively. $T$, therefore has a number of nodes equal to the sum of the
+number of nodes in each subtree, plus its root which appears outside of either subtree.
 Since the only node not appearing in either of $T$'s subtree is an internal node and
 not a leaf, the number of leaves $K+1$ in $T$ is equal to $L\_{left} + L\_{right}$.
 
 $$2(L\_{left}) - 1 + 2(L\_{right}) - 1 + 1 = 2(L\_{left} + L\_{right}) - 2 + 1 = 2(K+1) - 1 = 2(L+1) - 1$$
 
-Thus proving by induction that all full binary trees with $L$ leaves have $N = 2L - 1$ total nodes for all $L \quad \blacksquare$.
+Thus proving, by induction, that all full binary trees with $L$ leaves have $N = 2L - 1$ total
+nodes for all $L \quad \blacksquare$.
 
 <a name="perfect-binary-tree-proofs"></a>
 # Perfect binary tree
 
-A perfect tree has the tightest restraints on it and consequently
+A perfect tree has the tightest restraints on it and, consequently,
 allows us to introduce another variable to the relationship pool.
 This variable is the height $H$ of the tree.
 
@@ -263,7 +266,7 @@ This variable is the height $H$ of the tree.
 ## Relationship between $N$ and $H$ of a perfect binary tree
 
 If we try and calculate how many nodes $N$ exist in a perfect binary tree of height
-$H$ we can tabulate the following data:
+$H$, we can tabulate the following data:
 
 $$
   \boxed{
@@ -282,7 +285,7 @@ $$
 $$
 
 The mathematical relationship we can deduce between the number
-of nodes in a perfect tree $N$, and it's height $H$ appears to be:
+of nodes in a perfect tree $N$ and its height $H$ appears to be:
 
 $$N = 2^{H+1} - 1$$
 
@@ -290,7 +293,7 @@ We can prove this relationship with induction.
 
 ### Base case
 
-Trivial, a tree of height $0$ has $2^{0+1} - 1 = 2 - 1 = 1 \text{ node }$
+Trivial; a tree of height $0$ has $2^{0+1} - 1 = 2 - 1 = 1 \text{ node }$
 
 ### Assumption
 
@@ -298,7 +301,7 @@ Assume that for all perfect trees of height $H$, $N = 2^{H+1} - 1$.
 
 ### Inductive step
 
-Prove that the formula works for a tree of height $H+1$, namely a tree of height $H+1$
+Prove that the formula works for a tree of height $H+1$. Namely, a tree of height $H+1$
 should have $2^{H+2} - 1$ total nodes.
 
 We can see that a tree of height $H+1$ will have $2^{H+1}$ more nodes (leaves) than a tree of
@@ -354,7 +357,7 @@ $$
 ## Relationship between $N$ and $L$ of a perfect binary tree
 
 If we try and calculate how many leaves $L$ exist in a perfect binary
-tree consisting of $N$ nodes we can tabulate the following data:
+tree consisting of $N$ nodes, we can tabulate the following data:
 
 $$
   \boxed{
@@ -372,7 +375,7 @@ $$
   }
 $$
 
-The mathematical relationship we can deduce between the number of nodes in a perfect tree $N$, and
+The mathematical relationship we can deduce between the number of nodes in a perfect tree $N$ and
 the number of leaves $L$ appears to be:
 
 $$L = \frac{N+1}{2}$$
@@ -389,7 +392,7 @@ Let's assume that the equation $L = \frac{N+1}{2}$ is true for all perfect trees
 
 ## Inductive step
 
-We can see see that the number of leaves double every time we add a new level, so we need to prove
+We can see that the number of leaves double every time we add a new level. So, we need to prove
 that the number of leaves is $2L$ when we add $N+1$ nodes to our current tree.
 
 $$
@@ -406,7 +409,7 @@ $$
 ## Relationship between $H$ and $L$ of a perfect binary tree
 
 This is by far the simplest and most intuitive of the proofs we'll go over. From the other
-tables you've probably noticed that the leaf count doubles from height to height. Further,
+tables, you've probably noticed that the leaf count doubles from height to height. Further,
 the mathematical relationship we can deduce between the height $H$ and number of leaves $L$ is
 $L = 2^H$. Let's prove it by induction.
 
@@ -421,7 +424,7 @@ Let's assume that at height $H$, a perfect binary tree will have $2^H$ leaf node
 ## Inductive step
 
 Prove that at height $H+1$, a perfect binary tree will have double its current leaves, or $2^{H+1}$.
-Since the proof is basically just asking us to prove that $2^{H+1}$ is double $2^H$ all we have to
+Since the proof is basically just asking us to prove that $2^{H+1}$ is double $2^H$, all we have to
 establish is:
 
 $$2(2^H) = 2^{H+1} \quad \blacksquare$$
