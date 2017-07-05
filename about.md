@@ -16,3 +16,14 @@ on my own time, as solving interesting problems just generally makes me feel goo
 [Personal Site](http://domfarolino.com)
 
 [domfarolino@gmail.com](mailto:domfarolino@gmail.com)
+
+### Random Stuff
+
+`~/.vimrc`:
+
+```
+set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
+set ruler
+syntax on
+set smartindent
+```
