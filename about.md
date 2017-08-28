@@ -18,14 +18,3 @@ just generally makes me feel good! I love running, racquetball, and hate spiders
 [Personal Site](http://domfarolino.com)
 
 [domfarolino@gmail.com](mailto:domfarolino@gmail.com)
-
-### Random Stuff
-
-`~/.vimrc`:
-
-```
-set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
-set ruler
-syntax on
-set smartindent
-```
