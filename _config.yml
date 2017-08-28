@@ -1,25 +1,13 @@
-url: https://blog.domfarolino.com   # with the https protocol
-enforce_ssl: www.blog.domfarolino.com   # without any protoc
+url: https://blog.domfarolino.com
+enforce_ssl: www.blog.domfarolino.com
 
-# Name of your site (displayed in the header)
 name: Dominic Farolino
-
-# Pagination settings
-paginate: 5
-paginate_path: '/page:num'
-
-# Short bio or description (displayed in the header)
 description: Web Developer and Programmer
-
-# URL of your avatar or profile pic (you could use your GitHub profile pic)
+google_analytics: UA-88460462-1
 avatar: https://avatars2.githubusercontent.com/u/9669289?v=3&s=460
+disqus: domfarolino # shortname
 
-#
-# Flags below are optional
-#
-
-# Includes an icon in the footer for each username you enter
-footer-links:
+footer-links: # optional
   email: domfarolino@gmail.com
   github: domfarolino
   instagram: domfarolino
@@ -28,12 +16,6 @@ footer-links:
   stackoverflow: users/3947332/dom-farolino
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: +DomFarolino
-
-
-# Enter your Disqus shortname (not your username) to enable commenting on posts
-disqus: domfarolino
-
-google_analytics: UA-88460462-1
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
@@ -44,6 +26,10 @@ baseurl: ""
 #
 # !! You don't need to change any of the configuration flags below !!
 #
+
+# Pagination settings
+paginate: 5
+paginate_path: '/page:num'
 
 markdown: redcarpet
 highlighter: rouge
@@ -57,7 +43,7 @@ version: v1.1.0
 
 # Set the Sass partials directory, as we're using @imports
 sass:
-  style: :expanded # You might prefer to minify using :compressed
+  style: :expanded # | :compressed
 
 plugins:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
