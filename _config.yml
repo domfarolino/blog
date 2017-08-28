@@ -2,11 +2,11 @@
 # This file contains configuration flags to customize your site
 #
 
-url: https://chinocode.com   # with the https protocol
-enforce_ssl: www.chinocode.com   # without any protoc
+url: https://blog.domfarolino.com   # with the https protocol
+enforce_ssl: www.blog.domfarolino.com   # without any protoc
 
 # Name of your site (displayed in the header)
-name: Dom Farolino
+name: Dominic Farolino
 
 # Pagination settings
 paginate: 5
@@ -75,7 +75,7 @@ sass:
   style: :expanded # You might prefer to minify using :compressed
 
 # Use the following plug-ins
-gems:
+plugins:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
   - jekyll-paginate # for pagination
