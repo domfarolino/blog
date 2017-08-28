@@ -1,7 +1,3 @@
-#
-# This file contains configuration flags to customize your site
-#
-
 url: https://blog.domfarolino.com   # with the https protocol
 enforce_ssl: www.blog.domfarolino.com   # without any protoc
 
@@ -24,31 +20,20 @@ avatar: https://avatars2.githubusercontent.com/u/9669289?v=3&s=460
 
 # Includes an icon in the footer for each username you enter
 footer-links:
-  dribbble:
-  email: cpuxtech@gmail.com
-  facebook:
-  flickr:
+  email: domfarolino@gmail.com
   github: domfarolino
   instagram: domfarolino
-  linkedin:
-  pinterest:
-  rss: # just type anything here for a working RSS icon
+  linkedin: domfarolino
   twitter: domfarolino
   stackoverflow: users/3947332/dom-farolino
   youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: # anything in your profile username that comes after plus.google.com/
+  googleplus: +DomFarolino
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
-# You can find your shortname on the Settings page of your Disqus account
 disqus: domfarolino
 
-# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics:
-
-# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
-# Used for Sitemap.xml and your RSS feed
-url: http://chinocode.com
+google_analytics: UA-88460462-1
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
@@ -74,18 +59,14 @@ version: v1.1.0
 sass:
   style: :expanded # You might prefer to minify using :compressed
 
-# Use the following plug-ins
 plugins:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
-  - jekyll-paginate # for pagination
+  - jekyll-paginate
 
-# Exclude these files from your production _site
 exclude:
     - Gemfile
     - Gemfile.lock
     - LICENSE
     - README.md
     - CNAME
-
-encoding: utf-8
