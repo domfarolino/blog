@@ -12,9 +12,9 @@ the web, algorithms, and math. I also like writing web applications and contribu
 
 In my free time I love to play the piano (mostly Mozart) but I've also written some music myself. As
 stated before, I love to do math and solve algorithms on my own time, as solving interesting problems
-just generally makes me feel good! I love running, racquetball, and hate spiders 😊.
+just generally makes me feel good! I love running, racquetball, and hate spiders 😊..
 
 ### Contact me
-[Personal Site](http://domfarolino.com)
+[Personal Site](https://domfarolino.com)
 
 [domfarolino@gmail.com](mailto:domfarolino@gmail.com)
