@@ -31,7 +31,6 @@ baseurl: ""
 paginate: 5
 paginate_path: '/page:num'
 
-markdown: redcarpet
 highlighter: rouge
 permalink: /:title/
 
