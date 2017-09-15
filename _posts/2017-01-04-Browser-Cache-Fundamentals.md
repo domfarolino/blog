@@ -2,7 +2,7 @@
 layout: post
 title: Browser Cache Fundamentals
 category: Web
-tags: [web standards, javascript, web applications]
+tags: [web standards, web applications]
 ---
 
 The browser cache is something I think a lot of developers know of but don't understand

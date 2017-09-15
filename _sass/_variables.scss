@@ -18,18 +18,17 @@ $theme-color: $blue;
 $theme-color-dark: darken($theme-color, 10%);
 
 $post-date-color: #9a9a9a;
+$post-meta-spacing: .5rem;
 $title-color: #313131;
 $masthead-title-small-color: #c0c0c0;
 
 /* Font stack */
+$bodyFont: Roboto, Arial, sans-serif;
+$headerFont: "Roboto Slab", Roboto, Arial, sans-serif;
+
 $font-serif: "PT Serif", Georgia, "Times New Roman", serif;
 $font-sans: "PT Sans", Helvetica, Arial, sans-serif;
 $font-font-awesome: FontAwesome;
-
-$openSans: Open-Sans;
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: Georgia, serif;
 
 // Mobile breakpoints
 @mixin mobile {
