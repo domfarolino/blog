@@ -18,25 +18,25 @@ html {
 }
 
 body {
-	background: $white;
-  font: 18px/1.4 $helvetica;
+  background: $white;
+  font: 18px/1.4 $bodyFont;
   color: $darkGray;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 930px;
+  max-width: 775px;
   padding: 0 10px;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
+  font-family: $headerFont;
   color: $darkerGray;
   font-weight: bold;
 
   line-height: 1.7;
-  margin: 1em 0 15px;
+  margin: .8em 0 15px;
   padding: 0;
 
   @include mobile {
@@ -65,7 +65,16 @@ h4 {
 }
 
 p {
-  margin: 15px 0;
+  margin: 1.2em 0;
+}
+
+div.posts div.post p {
+  margin-top: .6rem;
+}
+
+div.post p, article.post p {
+  font-size: 17px;
+  line-height: 1.9;
 }
 
 a {
@@ -73,7 +82,7 @@ a {
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    text-decoration: underline;
   }
 }
 
@@ -150,10 +159,6 @@ img {
 // .masthead
 //
 
-.wrapper-masthead {
-  margin-bottom: 50px;
-}
-
 .masthead {
   padding: 20px 0;
   border-bottom: 1px solid $lightGray;
@@ -194,10 +199,9 @@ img {
   margin: 0;
   color: $darkGray;
   cursor: pointer;
-  font-family: $helveticaNeue;
+  font-family: $headerFont;
   font-weight: 300;
   font-size: 28px;
-  letter-spacing: 1px;
 }
 
 .site-description {
@@ -212,8 +216,8 @@ img {
 
 nav {
   float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
+  margin-top: 39px;
+  font-family: $headerFont;
   font-size: 18px;
 
   @include mobile {
@@ -225,10 +229,12 @@ nav {
 
   a {
     margin-left: 20px;
-    color: $darkGray;
+    color: $gray;
     text-align: right;
     font-weight: 300;
-    letter-spacing: 1px;
+    letter-spacing: .1px;
+    font-size: 16px;
+    font-family: $bodyFont;
 
     @include mobile {
       margin: 0 10px;
@@ -242,7 +248,7 @@ nav {
 //
 
 .posts > .post {
-  padding-bottom: 2em;
+  padding-bottom: 1em;
   border-bottom: 1px solid $lightGray;
 }
 
@@ -250,6 +256,29 @@ nav {
   padding-bottom: 1em;
   border-bottom: none;
 }
+
+/**
+ * Styles added from talking to emily
+ */
+.post > span.post-date {
+  margin-right: $post-meta-spacing;
+}
+
+.post > a.post-tag:first-of-type {
+  margin-left: $post-meta-spacing;
+}
+
+.post-more a:first-child {
+  margin-right: $post-meta-spacing;
+}
+
+h1.post-title {
+  margin-bottom: 1.3rem;
+}
+
+/**
+ * End adhoc styles
+ */
 
 .post {
   blockquote {

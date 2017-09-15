@@ -5,8 +5,6 @@ category: Web
 tags: [javascript, es6, web applications, web standards]
 ---
 
-## Custom Elements and Reusable Web Components
-
 I recently discovered the new `customElements` API and, after some experimentation,
 I decided to write about its awesomeness. The Custom Elements API allows web developers
 to define their own top-level HTML elements, thus promoting reusability among the

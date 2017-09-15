@@ -15,7 +15,7 @@ we'll cover that later). So how does this work for arrays? It's tempting to thin
 
 Arrays are really just `objects` with integer-looking property names. So in the above example,
 both `0` and `1` are `in [1, 2]` just as `0` and `1` are `in [99, 100]`. But wait, you may have
-heard that all object property names in JavaScript are strings*, so how does the array allow
+heard that all object property names in JavaScript are strings, so how does the array allow
 integer indexing and `in` checking?
 
 You're probably used to referencing elements in an array by passing some integer to the bracket

@@ -5,7 +5,7 @@ category: Algorithms and Data Structures
 tags: [leetcode, algorithm, recursive, divide and conquer]
 ---
 
-# Problem Statements
+Consider the following problem statements:
 
  - Given $k$ sorted contiguous arrays, return a single array containing all
 of the elements from each array in sorted order.
