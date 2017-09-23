@@ -60,9 +60,16 @@ mutation that occurred.
 
 # Mutations and Microtasks
 
-In case you are unfamiliar with the concept of microtasks and how the browser schedules work, I recommend reading
+In case you are unfamiliar with the concept of tasks, microtasks, and how the browser schedules work, I recommend reading
 Jake Archibald's article on [tasks and microtasks](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/).
-It's a tad lengthy, so I'll provide a bit about how it pertains to how `MutationObserver` callbacks are scheduled.
-Basically, when an observed DOM mutation occurs, `MutationObserver` callbacks are queued as microtasks in the event loop's
-microtask queue. This means a callback will be executed after the currently running task in the event loop *OR* mid-task
-after callbacks, if the JS stack is empty.
+It's a tad lengthy, so I'll provide a bit about how it pertains to how `MutationObserver`s are notified. Basically, when
+an observed DOM mutation occurs, we [queue a mutation record](https://dom.spec.whatwg.org/#queue-a-mutation-record), just
+like we do in the [attribute change steps](https://dom.spec.whatwg.org/#concept-element-attributes-change-ext). Queuing a
+mutation record involves adding a `MutationRecord` object with the necessary information to some `MutationObserver`'s record
+queue. Once this is complete, we check to see if a microtask to notify `MutationObserver`s of their record queues has been
+scheduled in the event loop's microtask queue, and schedule one if none exists. This is done in step 5 of the
+`queue a mutation record` steps. It's important that no matter how many times we queue a mutation record, we only add a microtask
+to notify listening `MutationObserver`s once, or else their associated callbacks would get called as many times as there have
+been mutations!
+
+Microtasks are then executed at the end of every task, and mid-task after callbacks only if the JS stack is empty.
