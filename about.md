@@ -4,15 +4,17 @@ title: About
 permalink: /about/
 ---
 
-I'm currently a 4th year computer science major at the University of Cincinnati and a Software Engineering
-intern at Mozilla. Most of my programming experience comes from outside school. I'm very passionate about
-the web, algorithms, and math. I also like writing web applications and contributing to web standards.
+I'm a 4th year computer science major at the University of Cincinnati, Software Engineering intern
+at Microsoft, Chromium contributer, and ex-Mozilla intern. I'm very passionate about the web platform,
+algorithms, and mathematics. I'm a member of the [WHATWG](https://github.com/whatwg/), technical owner
+of the [Priority Hints API](https://wicg.github.io/priority-hints/) implementation in Chromium, and editor
+of the [Console Standard](https://console.spec.whatwg.org/).
 
 ### More Information
 
 In my free time I love to play the piano (mostly Mozart) but I've also written some music myself. As
-stated before, I love to do math and solve algorithms on my own time, as solving interesting problems
-just generally makes me feel good! I love running, racquetball, and hate spiders 😊..
+stated before, I love to do math and solve algorithms on my own time. I love running, racquetball, and
+hate spiders 😊.
 
 ### Contact me
 [Personal Site](https://domfarolino.com)
