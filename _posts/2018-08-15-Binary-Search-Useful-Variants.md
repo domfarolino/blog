@@ -18,7 +18,7 @@ Out: position | -1
 A classic implementation binary search in C++ is as follows:
 <script src="https://gist.github.com/domfarolino/b9d372564fc1adc29ad9da79e9880144.js"></script>
 
-We set up our left and right bound index variables and, while they are not inverted, we keep zeroing
+We set up our left and right bound index variables, and while they are not inverted, we keep zeroing
 in on the element we're trying to find. Note, for an input array with no elements, the `left` and `right`
 variables are inverted by default, and thus the `while` loop will not be entered.
 
@@ -41,14 +41,14 @@ Perhaps getting information like the index of:
  - Next smallest value
 
 ... or some combination of the above sections! The rest of this article will be focused on building
-useful variants of the classic binary search and discussing some of the underlying logic and intuition.
+useful variants of the classic binary search, and discussing some of their underlying logic and intuition.
 
 <a name="first-occurrence">
 ## First Occurrence
 
 Binary search typically stops immediately when `arr[mid]` is the value we're looking for. In this variant, we
-want to modify the logic hit when we find an occurrence to not _immediately_ return the index of `mid`. Instead, we
-should begin searching for _earlier_ occurrences that may appear in the range `[left, mid]`. If we're interested
+want to modify the logic hit when we find an occurrence to not _immediately_ return the index of `mid`, but instead
+begin searching for _earlier_ occurrences that may appear in the range `[left, mid]`. If we're interested
 in the range `[left, mid]` (inclusive) after we find one occurrence, we can just set `right = mid` to continue searching.
 Setting `right = mid` (instead of `right = mid - 1`) includes the occurrence we just found when searching
 our "lower half", so in the following possible cases:
@@ -67,7 +67,7 @@ we'll return it!
 ## Last Occurrence
 
 We're going to use a similar tactic as we did above to find the last occurrence of a value appearing in a list
-potential duplicates. By bringing the lower boundary index variable up to `mid` (inclusive) when we've found
+potential duplicates, by bringing the lower boundary index variable up to `mid` (inclusive) when we've found
 an occurrence, we give the second half of the list a fair chance of producing another occurrence. In the last example,
 once we've found the value we're looking for, we check to see if we have room in the lower half to check for earlier occurrences with:
 
@@ -78,9 +78,9 @@ if (left != mid) { //...
 ... and set `right = mid` if that condition is true.
 
 For this variant, it's tempting to use `if (mid != right)` to see if we have room in the second half of our list to check for
-_later_ occurrences, setting `left = mid` if so. However, consider the array `[1, 1]`. Our index variables are initialized as
-`left = 0, right = 1`, and `mid` will be set to `0`. Here it's true that `mid != right`, which may indicate that we have room
-in our second half, but if we set `left = mid` in this case, we're never changing our bounds and we enter an infinite loop. This
+_later_ occurrences, and then set `left = mid` if so, but consider the array `[1, 1]`. Our index variables are initialized as
+`left = 0, right = 1`, and then `mid` will be set to `0`. Here it's true that `mid != right`, which may indicate that we have room
+in our second half, but if we set `left = mid`, in this case, we're never changing our bounds, and we enter an infinite loop. This
 is because the only time `mid == right` is when all index variables are pointing to the same element, making the check `mid != right`
 not indicative of a viable second half.
 
@@ -99,7 +99,7 @@ So if `left == mid`, we can essentially perform `return (arr[right] == value) ? 
 ## Closest Value
 
 Finding the index of the closest value if the value we're searching for DNE is actually fairly simple. Consider the case in which
-the value we are attempting to find DNE. Here we'll never be returning from within our `while` loop and will eventually be thrown
+the value we are attempting to find DNE. Here we'll never be returning from within our `while` loop, and will eventually be thrown
 outside of it. We know that once we're thrown outside of the loop, our `left` and `right` index variables must be inverted.
 This can happen in one of the following ways:
 
