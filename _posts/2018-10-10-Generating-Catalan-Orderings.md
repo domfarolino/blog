@@ -15,8 +15,8 @@ This is a super cool problem. It started as a modified version of the following 
 possible ways to group the terms with parentheses. We're assuming that all terms need to be grouped.
 In other words, "1234" is not a valid grouping but "(((12)3)4)" is. (Note, the two would be considered
 identical if operators of the same precedence were applied between all terms, because left-most parentheses
-are redundant given the order in which same-precedent operators are evaluated naturally). Equivalently, we
-can also accept "((12)3)4", which is the same just without parentheses on the outer-most level ...whatevs.
+are redundant, given the order in which same-precedent operators are evaluated naturally). Equivalently, we
+can also accept "((12)3)4", which is the same, just without parentheses on the outer-most level ...whatevs.
 
 To get a better feel for this likely-recursive problem, let's check out some simple examples/base cases:
 
@@ -59,7 +59,7 @@ v |   |
 1 2 3 4
 ```
 
-...effectively breaking the terms into two groups and our problem into two subproblems, of which the total number
+...effectively breaking the terms into two groups, and our problem into two subproblems, of which the total number
 of groupings will be $Groupings(1) \times Groupings(3)$. Therefore, with 1 held as our first group, 1(234) has
 two possible groupings:
 
@@ -89,7 +89,7 @@ As far as an implementation for this problem goes, we basically have two options
 
 We see these choices in a lot of combinatorial situations. Carrying out (1) is much easier and often requires
 much less work, since we don't actually have to enumerate over everything (+ even less so when there is a closed
-form solution). We can see it as a dynamic programming problem in which we build a table of the Catalan numbers
+form solution). We can see it as a dynamic programming, problem in which we build a table of the Catalan numbers
 from bottom (base case) ⇒ top (n), eventually stopping when we obtain $Catalan(n)$, the nth Catalan number. Of
 course we could actually just implement the closed formula too, but doing that won't learn ya nuthin' (not true,
 if you read the proof it's actually a wild ride).
@@ -99,7 +99,7 @@ if you read the proof it's actually a wild ride).
  - Time complexity: $O(n^2)$ (or $O(1)$ if we implement the closed form solution)
  - Space complexity: $O(n)$
 
-However, the problem we _actually_ set out is (2), whicho requires enumerating through all $Catalan(n)$ of
+However, the problem we _actually_ set out is (2), which requires enumerating through all $Catalan(n)$ of
 the possible groupings, since we need to produce them all. In
 [my implementation](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Combinatorics/catalanSequence/catalan.cpp),
 I store all of them and print them out at the end.
@@ -108,7 +108,8 @@ It can be seen as a divide-and-conquer sorta problem where we consider each poss
 original sequence of terms into two subsequences, $Catalan(k) \times Catalan(n - k)$. From here we can recurse, producing
 two lists of strings of the recursive solutions. At the "combine" stage, we essentially take the cartesian product
 of the two lists to form and return a larger list of longer strings. We just have to be careful to put parentheses
-in the right spot and what not. See [the implementation](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Combinatorics/catalanSequence/catalan.cpp)
+in the right spot and what not. See
+[the implementation](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Combinatorics/catalanSequence/catalan.cpp)
 for more!
 
 ## Complexity analysis (2)
